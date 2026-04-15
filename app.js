@@ -1583,6 +1583,73 @@ function MyPlansTab({ customPlans, addPlan, delPlan, updPlanRow }) {
 }
 
 /* ═══════════════════════════════════════════════════
+   FILES TAB
+═══════════════════════════════════════════════════ */
+function FilesTab() {
+  const [handle, setHandle] = useState(null);
+  const [files, setFiles] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const loadDirectory = async (dirHandle) => {
+    setLoading(true);
+    const result = [];
+    try {
+      for await (const entry of dirHandle.values()) {
+        result.push({
+          name: entry.name,
+          kind: entry.kind,
+          handle: entry
+        });
+      }
+      result.sort((a,b) => (a.kind === b.kind ? a.name.localeCompare(b.name) : (a.kind==='directory'?-1:1)));
+      setFiles(result);
+    } catch (e) {
+      console.error(e);
+    }
+    setLoading(false);
+  };
+
+  const selectFolder = async () => {
+    if (!window.showDirectoryPicker) {
+      alert("Your browser does not support the File System Access API.");
+      return;
+    }
+    try {
+      const dirHandle = await window.showDirectoryPicker();
+      setHandle(dirHandle);
+      loadDirectory(dirHandle);
+    } catch (e) {
+      console.log('User cancelled or error', e);
+    }
+  };
+
+  return React.createElement("div", null,
+    React.createElement(SL, null, "Local File Explorer"),
+    React.createElement("div", {style:{background:"var(--card)",border:"1px solid var(--border)",borderRadius:14,padding:16,marginBottom:20}},
+      React.createElement("p", {style:{fontSize:13,color:"var(--muted)",marginBottom:12,lineHeight:1.5}}, "Link a folder from your PC to view its contents right here in the app. This creates a secure, temporary connection to your local filesystem."),
+      React.createElement("button", {
+        onClick:selectFolder,
+        style:{width:"100%",background:"#22d3ee0d",border:"1.5px dashed #22d3ee44",borderRadius:14,padding:18,color:"#22d3ee",fontSize:13,fontWeight:600,display:"flex",alignItems:"center",justifyContent:"center",gap:8}
+      }, handle ? "📁 Change Linked Folder" : "📁 Link Local Folder")
+    ),
+    handle && React.createElement("div", {style:{background:"var(--card)",border:"1px solid var(--border)",borderRadius:14,padding:16}},
+      React.createElement("div", {style:{fontFamily:"'Syne',sans-serif",fontSize:15,fontWeight:800,color:"var(--text)",marginBottom:12,display:"flex",alignItems:"center",gap:6}}, "📂 " + handle.name),
+      loading ? React.createElement("div", {style:{fontSize:13,color:"var(--muted)",padding:"10px 0"}}, "Loading...") :
+      files.length === 0 ? React.createElement("div", {style:{fontSize:13,color:"var(--muted)",padding:"10px 0"}}, "Folder is empty") :
+      React.createElement("div", {style:{display:"flex",flexDirection:"column",gap:4}},
+        files.map(f => React.createElement("div", {
+          key:f.name,
+          style:{padding:"8px 10px",background:"var(--bg)",border:"1px solid var(--border)",borderRadius:8,display:"flex",alignItems:"center",gap:10,fontSize:13,color:"var(--text)"}
+        }, 
+          React.createElement("span", {style:{fontSize:16}}, f.kind==='directory'?"📁":"📄"),
+          f.name
+        ))
+      )
+    )
+  );
+}
+
+/* ═══════════════════════════════════════════════════
    APP ROOT
 ═══════════════════════════════════════════════════ */
 function App() {
@@ -1736,6 +1803,7 @@ function App() {
     {k:"projects",  l:"🚀 Projects"},
     {k:"goals",     l:"🎯 CV & Goals"},
     {k:"myplans",   l:"📂 My Plans"},
+    {k:"files",     l:"📁 Local Files"},
   ];
 
   const modalContent = {
@@ -1753,7 +1821,13 @@ function App() {
         React.createElement("div", {className:"nav-header"},
           React.createElement("div",{style:{fontFamily:"'Syne',sans-serif",fontSize:9,fontWeight:700,letterSpacing:"0.22em",color:"var(--muted)",textTransform:"uppercase"}},"University of Bradford · Applied AI"),
           React.createElement("div",{style:{fontFamily:"'Syne',sans-serif",fontSize:20,fontWeight:800,color:"var(--text)",marginBottom:8,marginTop:4}},"ML Tracker"),
-          React.createElement(CloudBadge, {status:syncStatus})
+          React.createElement(CloudBadge, {status:syncStatus}),
+          data.settings?.githubUsername && React.createElement("a", {
+            href:`https://github.com/${data.settings.githubUsername}`,
+            target:"_blank",
+            rel:"noopener noreferrer",
+            style:{display:"inline-block",marginTop:12,background:"#c084fc18",color:"#c084fc",padding:"6px 10px",borderRadius:6,fontSize:11,fontWeight:600,textDecoration:"none"}
+          }, `🔗 @${data.settings.githubUsername}`)
         ),
         React.createElement("nav", {className:"nav-tabs", style:{marginTop:16}},
           TABS.map(t =>
@@ -1777,6 +1851,7 @@ function App() {
           tab==="projects"  && React.createElement(ProjTab,     {projects:data.projects,updProj}),
           tab==="goals"     && React.createElement(GoalsTab,    {milestones:data.milestones,updMile}),
           tab==="myplans"   && React.createElement(MyPlansTab,  {customPlans:data.customPlans,addPlan,delPlan,updPlanRow}),
+          tab==="files"     && React.createElement(FilesTab,    null),
         )
       )
     ),
