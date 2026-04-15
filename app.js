@@ -49,14 +49,14 @@ const PRAYERS = [
 const GYM_TYPES = ["Weights", "Cardio", "HIIT", "Football", "Swimming", "Yoga", "Mixed", "Other"];
 const STATUSES = ["Not Started", "In Progress", "Done"];
 
-const PHASES = [
+const DEFAULT_PHASES = [
   { id: "Phase 1", label: "Foundation", color: "#22d3ee", dates: "14 Apr – 10 May", target: 60 },
-  { id: "Phase 2", label: "Core ML", color: "#f5c518", dates: "11 May – 21 Jun", target: 90 },
-  { id: "Phase 3", label: "Projects", color: "#fb923c", dates: "22 Jun – 9 Aug", target: 100 },
-  { id: "Phase 4", label: "Portfolio", color: "#c084fc", dates: "10 Aug – 30 Sep", target: 100 },
+  { id: "Phase 2", label: "Core ML",    color: "#f5c518", dates: "11 May – 21 Jun", target: 90 },
+  { id: "Phase 3", label: "Projects",   color: "#fb923c", dates: "22 Jun – 9 Aug",  target: 100 },
+  { id: "Phase 4", label: "Portfolio",  color: "#c084fc", dates: "10 Aug – 30 Sep", target: 100 },
 ];
-
-const PC = { "Phase 1": "#22d3ee", "Phase 2": "#f5c518", "Phase 3": "#fb923c", "Phase 4": "#c084fc" };
+let PHASES = DEFAULT_PHASES;
+let PC = Object.fromEntries(DEFAULT_PHASES.map(p => [p.id, p.color]));
 const SC = { "Done": "#4ade80", "In Progress": "#22d3ee", "Not Started": "#3f5570" };
 
 const NIGHT_SHIFTS = [
@@ -65,7 +65,7 @@ const NIGHT_SHIFTS = [
   "26 Aug", "3 Sep", "11 Sep", "19 Sep", "27 Sep"
 ];
 
-const WEEKLY_PLAN = [
+const DEFAULT_WEEKLY_PLAN = [
   { w: "Week 1", d: "14/04/26", p: "Phase 1", topic: "Python basics, NumPy, Pandas intro", resource: "Kaggle Python Micro-course" },
   { w: "Week 2", d: "21/04/26", p: "Phase 1", topic: "Statistics: mean, variance, distributions", resource: "Khan Academy Statistics" },
   { w: "Week 3", d: "28/04/26", p: "Phase 1", topic: "Linear algebra: vectors, matrices", resource: "3Blue1Brown Linear Algebra" },
@@ -91,8 +91,9 @@ const WEEKLY_PLAN = [
   { w: "Week 23", d: "14/09/26", p: "Phase 4", topic: "Interview prep: ML concepts + stats Qs", resource: "DataLemur" },
   { w: "Week 24", d: "21/09/26", p: "Phase 4", topic: "Polish CV, LinkedIn, GitHub + apply", resource: "LinkedIn / CV" },
 ];
+let WEEKLY_PLAN = DEFAULT_WEEKLY_PLAN;
 
-const RESOURCES = [
+const DEFAULT_RESOURCES = [
   { id: "r1", name: "Kaggle Python Micro-course", platform: "Kaggle", ph: "Phase 1", type: "Course", cost: "Free" },
   { id: "r2", name: "Kaggle Pandas Micro-course", platform: "Kaggle", ph: "Phase 1", type: "Course", cost: "Free" },
   { id: "r3", name: "3Blue1Brown — Essence of Linear Algebra", platform: "YouTube", ph: "Phase 1", type: "Video", cost: "Free" },
@@ -112,8 +113,9 @@ const RESOURCES = [
   { id: "r17", name: "Streamlit docs", platform: "streamlit.io", ph: "Phase 4", type: "Docs", cost: "Free" },
   { id: "r18", name: "DataLemur — ML interview questions", platform: "datalemur.com", ph: "Phase 4", type: "Practice", cost: "Free" },
 ];
+let RESOURCES = DEFAULT_RESOURCES;
 
-const PROJECTS = [
+const DEFAULT_PROJECTS = [
   { id: "p1", name: "Titanic Survival Prediction", ph: "Phase 2", tools: "pandas, scikit-learn" },
   { id: "p2", name: "House Price Prediction (Kaggle)", ph: "Phase 3", tools: "pandas, XGBoost, sklearn" },
   { id: "p3", name: "Portfolio Project #2 (your choice)", ph: "Phase 3", tools: "" },
@@ -121,8 +123,9 @@ const PROJECTS = [
   { id: "p5", name: "(Add your own)", ph: "", tools: "" },
   { id: "p6", name: "(Add your own)", ph: "", tools: "" },
 ];
+let PROJECTS = DEFAULT_PROJECTS;
 
-const MILESTONES = [
+const DEFAULT_MILESTONES = [
   { id: "m1", action: "Set up GitHub profile + push first notebook", ph: "Phase 1", due: "10 May" },
   { id: "m2", action: "Add Python, NumPy, Pandas to LinkedIn skills", ph: "Phase 1", due: "10 May" },
   { id: "m3", action: "Complete Kaggle Python + Pandas certificates", ph: "Phase 1", due: "10 May" },
@@ -139,6 +142,7 @@ const MILESTONES = [
   { id: "m14", action: "List 3 projects on CV with tools + outcomes", ph: "Phase 4", due: "30 Sep" },
   { id: "m15", action: "Apply to at least 3 data/ML roles or internships", ph: "Phase 4", due: "30 Sep" },
 ];
+let MILESTONES = DEFAULT_MILESTONES;
 
 /* ═══════════════════════════════════════════════════
    HELPERS
@@ -271,11 +275,12 @@ function get30DayHeatmap(dailyLog) {
   });
 }
 
-const defWeekly = () => Object.fromEntries(WEEKLY_PLAN.map(w => [w.w, { hours: "", status: "Not Started", notes: "" }]));
-const defRes = () => Object.fromEntries(RESOURCES.map(r => [r.id, { status: "Not Started", notes: "" }]));
-const defProjects = () => Object.fromEntries(PROJECTS.map(p => [p.id, { status: "Not Started", startDate: "", githubLink: "", linkedIn: false, notes: "", tools: p.tools, name: p.name }]));
-const defMiles = () => Object.fromEntries(MILESTONES.map(m => [m.id, { done: false, notes: "" }]));
-const defFlash = () => [];
+const defWeekly   = () => Object.fromEntries(WEEKLY_PLAN.map(w  => [w.w,  { hours: "", status: "Not Started", notes: "" }]));
+const defRes      = () => Object.fromEntries(RESOURCES.map(r   => [r.id,  { status: "Not Started", notes: "" }]));
+const defProjects = () => Object.fromEntries(PROJECTS.map(p    => [p.id,  { status: "Not Started", startDate: "", githubLink: "", linkedIn: false, notes: "", tools: p.tools, name: p.name }]));
+const defMiles    = () => Object.fromEntries(MILESTONES.map(m  => [m.id,  { done: false, notes: "" }]));
+const defFlash    = () => [];
+const defSchema   = () => ({ phases: null, weeklyPlan: null, milestones: null, resources: null, projects: null });
 
 /* ═══════════════════════════════════════════════════
    SHARED COMPONENTS
@@ -1780,6 +1785,476 @@ function FilesTab() {
 }
 
 /* ═══════════════════════════════════════════════════
+   CUSTOMIZE TAB
+═══════════════════════════════════════════════════ */
+const PHASE_PALETTE = ["#22d3ee","#f5c518","#fb923c","#c084fc","#4ade80","#f87171","#a78bfa","#38bdf8","#fbbf24","#34d399"];
+
+function CustomizeTab({ data, updSchema, weeklyLog, milestoneStatus, resourceStatus }) {
+  const schema  = data.schema || defSchema();
+  const phases  = schema.phases?.length     ? schema.phases     : DEFAULT_PHASES;
+  const plan    = schema.weeklyPlan?.length ? schema.weeklyPlan : DEFAULT_WEEKLY_PLAN;
+  const miles   = schema.milestones?.length ? schema.milestones : DEFAULT_MILESTONES;
+  const res     = schema.resources?.length  ? schema.resources  : DEFAULT_RESOURCES;
+  const projs   = schema.projects?.length   ? schema.projects   : DEFAULT_PROJECTS;
+
+  const [section, setSection] = useState("phases");
+
+  /* ── helpers ── */
+  const savePhases  = p  => updSchema({ ...schema, phases: p, weeklyPlan: plan, milestones: miles, resources: res, projects: projs });
+  const savePlan    = pl => updSchema({ ...schema, phases, weeklyPlan: pl, milestones: miles, resources: res, projects: projs });
+  const saveMiles   = m  => updSchema({ ...schema, phases, weeklyPlan: plan, milestones: m, resources: res, projects: projs });
+  const saveRes     = r  => updSchema({ ...schema, phases, weeklyPlan: plan, milestones: miles, resources: r, projects: projs });
+  const saveProjs   = pj => updSchema({ ...schema, phases, weeklyPlan: plan, milestones: miles, resources: res, projects: pj });
+
+  /* ── analysis ── */
+  function phaseStats(ph) {
+    const weeks = plan.filter(w => w.p === ph.id);
+    const done  = weeks.filter(w => (weeklyLog[w.w]?.status) === "Done").length;
+    const mDone = miles.filter(m => m.ph === ph.id && milestoneStatus[m.id]?.done).length;
+    const mTot  = miles.filter(m => m.ph === ph.id).length;
+    return { weeks: weeks.length, done, mDone, mTot };
+  }
+
+  /* ────────────────────────────────────────────────
+     PHASES SECTION
+  ──────────────────────────────────────────────── */
+  function PhasesSection() {
+    const [editing, setEditing] = useState(null); // phase id being edited
+    const [addMode, setAddMode] = useState(false);
+    const blank = { id:"", label:"", color:"#22d3ee", dates:"", target:60 };
+    const [form, setForm] = useState(blank);
+    const f = k => v => setForm(p => ({...p,[k]:v}));
+
+    function saveEdit() {
+      if (!form.id.trim() || !form.label.trim()) return;
+      const updated = phases.map(p => p.id === editing ? {...form} : p);
+      savePhases(updated); setEditing(null);
+    }
+    function saveNew() {
+      if (!form.id.trim() || !form.label.trim()) return;
+      savePhases([...phases, { ...form, target: +form.target || 60 }]);
+      setAddMode(false); setForm(blank);
+    }
+    function del(id) {
+      if (!confirm(`Delete ${id}? This will not delete your logged data.`)) return;
+      savePhases(phases.filter(p => p.id !== id));
+    }
+
+    return React.createElement("div", null,
+      /* phase cards */
+      phases.map(ph => {
+        const st = phaseStats(ph);
+        const pct = Math.min(100, Math.round((st.done / Math.max(st.weeks,1)) * 100));
+        const isEd = editing === ph.id;
+        return React.createElement("div", {
+          key: ph.id,
+          style:{ background:"var(--card)", border:`1.5px solid ${ph.color}44`, borderRadius:14, marginBottom:10, overflow:"hidden",
+            transition:"box-shadow 0.2s" }
+        },
+          /* header row */
+          React.createElement("div", {
+            style:{ padding:"14px 16px", display:"flex", alignItems:"center", gap:12 }
+          },
+            React.createElement("div", { style:{ width:14, height:14, borderRadius:4, background:ph.color, flexShrink:0 } }),
+            React.createElement("div", { style:{ flex:1 } },
+              React.createElement("div", { style:{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:4 } },
+                React.createElement("span", { style:{ fontFamily:"'Syne',sans-serif", fontSize:14, fontWeight:800, color:ph.color } },
+                  `${ph.id} — ${ph.label}`),
+                React.createElement("span", { style:{ fontSize:12, color:"var(--muted)" } }, ph.dates)
+              ),
+              React.createElement(ProgBar, { pct, color: ph.color, height: 5 }),
+              React.createElement("div", { style:{ display:"flex", gap:16, marginTop:5, fontSize:11, color:"var(--muted)" } },
+                React.createElement("span", null, `${st.done}/${st.weeks} weeks done`),
+                React.createElement("span", null, `${pct}% complete`),
+                React.createElement("span", null, `${st.mDone}/${st.mTot} milestones`),
+                React.createElement("span", null, `Target: ${ph.target}h`)
+              )
+            ),
+            React.createElement("div", { style:{ display:"flex", gap:6, flexShrink:0 } },
+              React.createElement("button", {
+                onClick: () => { setEditing(isEd ? null : ph.id); setForm({...ph}); setAddMode(false); },
+                style:{ background: isEd?"#22d3ee1a":"var(--bg)", border:`1px solid ${isEd?"#22d3ee":"var(--border)"}`,
+                  borderRadius:7, padding:"5px 10px", color: isEd?"#22d3ee":"var(--muted)", fontSize:12 }
+              }, isEd ? "Cancel" : "Edit"),
+              React.createElement("button", {
+                onClick: () => del(ph.id),
+                style:{ background:"#f8717110", border:"1px solid #f8717133", borderRadius:7, padding:"5px 10px", color:"#f87171", fontSize:12 }
+              }, "Delete")
+            )
+          ),
+          /* edit form */
+          isEd && React.createElement("div", {
+            style:{ borderTop:"1px solid var(--border)", padding:"14px 16px", display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }
+          },
+            React.createElement("div", null,
+              React.createElement(FL, null, "Phase ID"),
+              React.createElement("input", { value:form.id, onChange:e=>f("id")(e.target.value), className:"inp", placeholder:"Phase 1" })
+            ),
+            React.createElement("div", null,
+              React.createElement(FL, null, "Label"),
+              React.createElement("input", { value:form.label, onChange:e=>f("label")(e.target.value), className:"inp", placeholder:"Foundation" })
+            ),
+            React.createElement("div", null,
+              React.createElement(FL, null, "Date Range"),
+              React.createElement("input", { value:form.dates, onChange:e=>f("dates")(e.target.value), className:"inp", placeholder:"14 Apr – 10 May" })
+            ),
+            React.createElement("div", null,
+              React.createElement(FL, null, "Hour Target"),
+              React.createElement("input", { type:"number", value:form.target, onChange:e=>f("target")(e.target.value), className:"inp", placeholder:"60" })
+            ),
+            React.createElement("div", { style:{ gridColumn:"1/-1" } },
+              React.createElement(FL, null, "Color"),
+              React.createElement("div", { style:{ display:"flex", gap:8, flexWrap:"wrap" } },
+                PHASE_PALETTE.map(c => React.createElement("button", {
+                  key:c, onClick:()=>f("color")(c),
+                  style:{ width:28, height:28, borderRadius:6, background:c, border:`3px solid ${form.color===c?"white":"transparent"}`,
+                    transition:"transform 0.1s", transform: form.color===c?"scale(1.2)":"scale(1)" }
+                }))
+              )
+            ),
+            React.createElement("div", { style:{ gridColumn:"1/-1" } },
+              React.createElement("button", {
+                onClick: saveEdit,
+                style:{ width:"100%", background:`${form.color}1a`, border:`1px solid ${form.color}`, borderRadius:9,
+                  padding:11, color:form.color, fontWeight:700, fontSize:13 }
+              }, "Save Changes")
+            )
+          )
+        );
+      }),
+      /* add phase */
+      !addMode
+        ? React.createElement("button", {
+            onClick:()=>{ setAddMode(true); setEditing(null); setForm(blank); },
+            style:{ width:"100%", background:"#22d3ee0d", border:"1.5px dashed #22d3ee44", borderRadius:12, padding:14,
+              color:"#22d3ee", fontWeight:600, fontSize:13, marginTop:4 }
+          }, "+ Add Phase")
+        : React.createElement("div", {
+            style:{ background:"var(--card)", border:"1px solid #22d3ee44", borderRadius:14, padding:16, marginTop:8 }
+          },
+            React.createElement("div", { style:{ fontFamily:"'Syne',sans-serif", fontSize:14, fontWeight:700, color:"var(--text)", marginBottom:14 } }, "New Phase"),
+            React.createElement("div", { style:{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:10 } },
+              React.createElement("div", null,
+                React.createElement(FL, null, "Phase ID"),
+                React.createElement("input", { value:form.id, onChange:e=>f("id")(e.target.value), className:"inp", placeholder:"Phase 5" })
+              ),
+              React.createElement("div", null,
+                React.createElement(FL, null, "Label"),
+                React.createElement("input", { value:form.label, onChange:e=>f("label")(e.target.value), className:"inp", placeholder:"Advanced ML" })
+              ),
+              React.createElement("div", null,
+                React.createElement(FL, null, "Date Range"),
+                React.createElement("input", { value:form.dates, onChange:e=>f("dates")(e.target.value), className:"inp", placeholder:"1 Oct – 30 Nov" })
+              ),
+              React.createElement("div", null,
+                React.createElement(FL, null, "Hour Target"),
+                React.createElement("input", { type:"number", value:form.target, onChange:e=>f("target")(e.target.value), className:"inp", placeholder:"80" })
+              )
+            ),
+            React.createElement(FL, null, "Color"),
+            React.createElement("div", { style:{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:14 } },
+              PHASE_PALETTE.map(c => React.createElement("button", {
+                key:c, onClick:()=>f("color")(c),
+                style:{ width:28, height:28, borderRadius:6, background:c, border:`3px solid ${form.color===c?"white":"transparent"}` }
+              }))
+            ),
+            React.createElement("div", { style:{ display:"flex", gap:8 } },
+              React.createElement("button", { onClick:saveNew,
+                style:{ flex:1, background:"#22d3ee1a", border:"1px solid #22d3ee", borderRadius:9, padding:11, color:"#22d3ee", fontWeight:700, fontSize:13 }
+              }, "Add Phase"),
+              React.createElement("button", { onClick:()=>setAddMode(false),
+                style:{ flex:1, background:"transparent", border:"1px solid var(--border)", borderRadius:9, padding:11, color:"var(--muted)", fontSize:13 }
+              }, "Cancel")
+            )
+          )
+    );
+  }
+
+  /* ────────────────────────────────────────────────
+     WEEKLY PLAN SECTION
+  ──────────────────────────────────────────────── */
+  function PlanSection() {
+    const [editing, setEditing] = useState(null);
+    const [addMode, setAddMode] = useState(false);
+    const blank = { w:"", d:"", p: phases[0]?.id || "Phase 1", topic:"", resource:"" };
+    const [form, setForm] = useState(blank);
+    const f = k => v => setForm(p => ({...p,[k]:v}));
+
+    function saveEdit() {
+      if (!form.w.trim() || !form.topic.trim()) return;
+      savePlan(plan.map(w => w.w === editing ? {...form} : w));
+      setEditing(null);
+    }
+    function saveNew() {
+      if (!form.w.trim() || !form.topic.trim()) return;
+      savePlan([...plan, {...form}]);
+      setAddMode(false); setForm(blank);
+    }
+    function delWeek(ww) {
+      if (!confirm(`Remove ${ww} from your plan?`)) return;
+      savePlan(plan.filter(w => w.w !== ww));
+    }
+    function moveUp(i)   { if (i===0) return; const a=[...plan]; [a[i-1],a[i]]=[a[i],a[i-1]]; savePlan(a); }
+    function moveDown(i) { if (i===plan.length-1) return; const a=[...plan]; [a[i],a[i+1]]=[a[i+1],a[i]]; savePlan(a); }
+
+    const doneCnt = plan.filter(w => weeklyLog[w.w]?.status==="Done").length;
+    const pct = plan.length ? Math.round((doneCnt/plan.length)*100) : 0;
+
+    return React.createElement("div", null,
+      /* summary bar */
+      React.createElement("div", {
+        style:{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:13, padding:"14px 16px", marginBottom:16 }
+      },
+        React.createElement("div", { style:{ display:"flex", justifyContent:"space-between", marginBottom:8 } },
+          React.createElement("span", { style:{ fontSize:14, fontWeight:600 } }, "Plan Progress"),
+          React.createElement("span", { style:{ fontSize:14, color:"#4ade80", fontWeight:700 } }, `${doneCnt}/${plan.length} weeks (${pct}%)`)
+        ),
+        React.createElement(ProgBar, { pct, color:"#4ade80", height:7 })
+      ),
+      /* weeks grouped by phase */
+      phases.map(ph => {
+        const phWeeks = plan.map((w,i)=>({...w,_i:i})).filter(w => w.p === ph.id);
+        if (!phWeeks.length) return null;
+        return React.createElement("div", { key:ph.id, style:{ marginBottom:18 } },
+          React.createElement("div", {
+            style:{ fontSize:11, fontWeight:700, color:ph.color, letterSpacing:"0.14em", textTransform:"uppercase", marginBottom:8 }
+          }, `${ph.id} — ${ph.label}`),
+          phWeeks.map(w => {
+            const st = weeklyLog[w.w];
+            const sc = SC[st?.status] || SC["Not Started"];
+            const isEd = editing === w.w;
+            return React.createElement("div", {
+              key:w.w,
+              style:{ background:"var(--card)", border:`1px solid ${isEd?ph.color+"55":"var(--border)"}`,
+                borderRadius:11, marginBottom:6, overflow:"hidden" }
+            },
+              React.createElement("div", { style:{ padding:"11px 14px", display:"flex", alignItems:"center", gap:10 } },
+                React.createElement("div", { style:{ width:3, height:32, borderRadius:2, background:sc, flexShrink:0 } }),
+                React.createElement("div", { style:{ flex:1, minWidth:0 } },
+                  React.createElement("div", { style:{ display:"flex", justifyContent:"space-between", alignItems:"center" } },
+                    React.createElement("span", { style:{ fontFamily:"'Syne',sans-serif", fontSize:12, fontWeight:700, color:ph.color } }, w.w),
+                    React.createElement("span", { style:{ fontSize:10, color:sc, fontWeight:600, textTransform:"uppercase" } }, st?.status || "Not Started")
+                  ),
+                  React.createElement("div", { style:{ fontSize:14, fontWeight:500, color:"var(--text)", marginTop:2, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" } }, w.topic),
+                  React.createElement("div", { style:{ fontSize:11, color:"var(--muted)", marginTop:1 } }, `${w.d} — ${w.resource}`)
+                ),
+                React.createElement("div", { style:{ display:"flex", gap:4, flexShrink:0 } },
+                  React.createElement("button", { onClick:()=>moveUp(w._i), title:"Move up",
+                    style:{ background:"var(--bg)", border:"1px solid var(--border)", borderRadius:5, padding:"4px 7px", color:"var(--muted)", fontSize:11 } }, "↑"),
+                  React.createElement("button", { onClick:()=>moveDown(w._i), title:"Move down",
+                    style:{ background:"var(--bg)", border:"1px solid var(--border)", borderRadius:5, padding:"4px 7px", color:"var(--muted)", fontSize:11 } }, "↓"),
+                  React.createElement("button", {
+                    onClick:()=>{ setEditing(isEd?null:w.w); setForm({...w}); setAddMode(false); },
+                    style:{ background: isEd?"#22d3ee1a":"var(--bg)", border:`1px solid ${isEd?"#22d3ee":"var(--border)"}`,
+                      borderRadius:6, padding:"4px 9px", color:isEd?"#22d3ee":"var(--muted)", fontSize:12 }
+                  }, isEd?"✕":"Edit"),
+                  React.createElement("button", { onClick:()=>delWeek(w.w),
+                    style:{ background:"transparent", border:"none", color:"var(--muted)", fontSize:18, padding:"0 4px", lineHeight:1 }
+                  }, "×")
+                )
+              ),
+              isEd && React.createElement("div", {
+                style:{ borderTop:"1px solid var(--border)", padding:"14px 16px", display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }
+              },
+                React.createElement("div", null, React.createElement(FL,null,"Week Label"), React.createElement("input",{value:form.w,onChange:e=>f("w")(e.target.value),className:"inp",placeholder:"Week 25"})),
+                React.createElement("div", null, React.createElement(FL,null,"Start Date"), React.createElement("input",{value:form.d,onChange:e=>f("d")(e.target.value),className:"inp",placeholder:"28/09/26"})),
+                React.createElement("div", null,
+                  React.createElement(FL,null,"Phase"),
+                  React.createElement("select",{value:form.p,onChange:e=>f("p")(e.target.value),className:"inp"},
+                    phases.map(ph=>React.createElement("option",{key:ph.id,value:ph.id},ph.id))
+                  )
+                ),
+                React.createElement("div", null, React.createElement(FL,null,"Resource"), React.createElement("input",{value:form.resource,onChange:e=>f("resource")(e.target.value),className:"inp",placeholder:"Coursera..."})),
+                React.createElement("div",{style:{gridColumn:"1/-1"}}, React.createElement(FL,null,"Topic"), React.createElement("input",{value:form.topic,onChange:e=>f("topic")(e.target.value),className:"inp",placeholder:"e.g. Advanced NLP techniques"})),
+                React.createElement("div",{style:{gridColumn:"1/-1"}},
+                  React.createElement("button",{onClick:saveEdit,style:{width:"100%",background:`${ph.color}1a`,border:`1px solid ${ph.color}`,borderRadius:9,padding:11,color:ph.color,fontWeight:700,fontSize:13}},"Save Changes")
+                )
+              )
+            );
+          })
+        );
+      }),
+      /* uncategorised weeks */
+      (() => {
+        const unc = plan.map((w,i)=>({...w,_i:i})).filter(w => !phases.find(ph=>ph.id===w.p));
+        if (!unc.length) return null;
+        return React.createElement("div",{style:{marginBottom:18}},
+          React.createElement("div",{style:{fontSize:11,fontWeight:700,color:"var(--muted)",letterSpacing:"0.14em",textTransform:"uppercase",marginBottom:8}},"Uncategorised"),
+          unc.map(w=>React.createElement("div",{key:w.w,style:{background:"var(--card)",border:"1px solid var(--border)",borderRadius:11,padding:"11px 14px",marginBottom:6,fontSize:14,color:"var(--text)",display:"flex",justifyContent:"space-between",alignItems:"center"}},
+            React.createElement("span",null,w.w+" — "+w.topic),
+            React.createElement("button",{onClick:()=>delWeek(w.w),style:{background:"none",border:"none",color:"var(--muted)",fontSize:18,cursor:"pointer"}},"×")
+          ))
+        );
+      })(),
+      /* add week */
+      !addMode
+        ? React.createElement("button",{
+            onClick:()=>{setAddMode(true);setEditing(null);setForm(blank);},
+            style:{width:"100%",background:"#22d3ee0d",border:"1.5px dashed #22d3ee44",borderRadius:12,padding:14,color:"#22d3ee",fontWeight:600,fontSize:13,marginTop:4}
+          },"+ Add Week to Plan")
+        : React.createElement("div",{style:{background:"var(--card)",border:"1px solid #22d3ee44",borderRadius:14,padding:16,marginTop:8}},
+            React.createElement("div",{style:{fontFamily:"'Syne',sans-serif",fontSize:14,fontWeight:700,color:"var(--text)",marginBottom:14}},"New Week"),
+            React.createElement("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:10}},
+              React.createElement("div",null,React.createElement(FL,null,"Week Label"),React.createElement("input",{value:form.w,onChange:e=>f("w")(e.target.value),className:"inp",placeholder:"Week 25"})),
+              React.createElement("div",null,React.createElement(FL,null,"Start Date"),React.createElement("input",{value:form.d,onChange:e=>f("d")(e.target.value),className:"inp",placeholder:"28/09/26"})),
+              React.createElement("div",null,
+                React.createElement(FL,null,"Phase"),
+                React.createElement("select",{value:form.p,onChange:e=>f("p")(e.target.value),className:"inp"},
+                  phases.map(ph=>React.createElement("option",{key:ph.id,value:ph.id},ph.id))
+                )
+              ),
+              React.createElement("div",null,React.createElement(FL,null,"Resource"),React.createElement("input",{value:form.resource,onChange:e=>f("resource")(e.target.value),className:"inp",placeholder:"Coursera..."}))
+            ),
+            React.createElement(FL,null,"Topic"),
+            React.createElement("input",{value:form.topic,onChange:e=>f("topic")(e.target.value),className:"inp",placeholder:"What you'll study this week",style:{marginBottom:12}}),
+            React.createElement("div",{style:{display:"flex",gap:8}},
+              React.createElement("button",{onClick:saveNew,style:{flex:1,background:"#22d3ee1a",border:"1px solid #22d3ee",borderRadius:9,padding:11,color:"#22d3ee",fontWeight:700,fontSize:13}},"Add Week"),
+              React.createElement("button",{onClick:()=>setAddMode(false),style:{flex:1,background:"transparent",border:"1px solid var(--border)",borderRadius:9,padding:11,color:"var(--muted)",fontSize:13}},"Cancel")
+            )
+          )
+    );
+  }
+
+  /* ────────────────────────────────────────────────
+     MILESTONES SECTION
+  ──────────────────────────────────────────────── */
+  function MilestonesSection() {
+    const [editing, setEditing] = useState(null);
+    const [addMode, setAddMode] = useState(false);
+    const blank = { id:"", action:"", ph: phases[0]?.id || "Phase 1", due:"" };
+    const [form, setForm] = useState(blank);
+    const f = k => v => setForm(p => ({...p,[k]:v}));
+
+    function saveEdit() {
+      if (!form.action.trim()) return;
+      saveMiles(miles.map(m => m.id === editing ? {...form} : m));
+      setEditing(null);
+    }
+    function saveNew() {
+      if (!form.action.trim()) return;
+      const id = `m_${Date.now()}`;
+      saveMiles([...miles, {...form, id}]);
+      setAddMode(false); setForm(blank);
+    }
+    function delMile(id) {
+      if (!confirm("Remove this milestone?")) return;
+      saveMiles(miles.filter(m => m.id !== id));
+    }
+
+    const doneCnt = miles.filter(m => milestoneStatus[m.id]?.done).length;
+    const pct = miles.length ? Math.round((doneCnt/miles.length)*100) : 0;
+
+    return React.createElement("div", null,
+      /* summary */
+      React.createElement("div",{style:{background:"var(--card)",border:"1px solid var(--border)",borderRadius:13,padding:"14px 16px",marginBottom:16}},
+        React.createElement("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:8}},
+          React.createElement("span",{style:{fontSize:14,fontWeight:600}},"CV & Career Milestones"),
+          React.createElement("span",{style:{fontSize:14,color:"#4ade80",fontWeight:700}},`${doneCnt}/${miles.length} done (${pct}%)`)
+        ),
+        React.createElement(ProgBar,{pct,color:"#4ade80",height:7})
+      ),
+      phases.map(ph => {
+        const phMiles = miles.filter(m => m.ph === ph.id);
+        if (!phMiles.length) return null;
+        const phDone = phMiles.filter(m => milestoneStatus[m.id]?.done).length;
+        return React.createElement("div",{key:ph.id,style:{marginBottom:18}},
+          React.createElement("div",{style:{fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,color:ph.color,letterSpacing:"0.14em",textTransform:"uppercase",marginBottom:8}},
+            `${ph.id} — ${ph.label} (${phDone}/${phMiles.length})`),
+          phMiles.map(m => {
+            const done = !!milestoneStatus[m.id]?.done;
+            const isEd = editing === m.id;
+            return React.createElement("div",{key:m.id,style:{background:"var(--card)",border:`1px solid ${done?"#4ade8033":isEd?ph.color+"44":"var(--border)"}`,borderRadius:11,padding:"12px 14px",marginBottom:6,opacity:done?0.7:1,transition:"opacity 0.2s"}},
+              React.createElement("div",{style:{display:"flex",alignItems:"center",gap:10}},
+                React.createElement("div",{style:{width:20,height:20,borderRadius:5,flexShrink:0,background:done?"#4ade80":"var(--bg)",border:`2px solid ${done?"#4ade80":"var(--muted)"}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,color:"#060b14"}},done?"✓":""),
+                React.createElement("div",{style:{flex:1,minWidth:0}},
+                  React.createElement("div",{style:{fontSize:14,fontWeight:600,color:"var(--text)",textDecoration:done?"line-through":"none",marginBottom:2}},m.action),
+                  React.createElement("div",{style:{fontSize:12,color:"var(--muted)"}},"Due: ",m.due)
+                ),
+                React.createElement("div",{style:{display:"flex",gap:6,flexShrink:0}},
+                  React.createElement("button",{
+                    onClick:()=>{setEditing(isEd?null:m.id);setForm({...m});setAddMode(false);},
+                    style:{background:isEd?"#22d3ee1a":"var(--bg)",border:`1px solid ${isEd?"#22d3ee":"var(--border)"}`,borderRadius:6,padding:"4px 9px",color:isEd?"#22d3ee":"var(--muted)",fontSize:12}
+                  },isEd?"✕":"Edit"),
+                  React.createElement("button",{onClick:()=>delMile(m.id),style:{background:"transparent",border:"none",color:"var(--muted)",fontSize:18,lineHeight:1}},"×")
+                )
+              ),
+              isEd && React.createElement("div",{style:{borderTop:"1px solid var(--border)",marginTop:10,paddingTop:12,display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}},
+                React.createElement("div",{style:{gridColumn:"1/-1"}},React.createElement(FL,null,"Action"),React.createElement("input",{value:form.action,onChange:e=>f("action")(e.target.value),className:"inp",placeholder:"What you need to achieve..."})),
+                React.createElement("div",null,
+                  React.createElement(FL,null,"Phase"),
+                  React.createElement("select",{value:form.ph,onChange:e=>f("ph")(e.target.value),className:"inp"},
+                    phases.map(ph=>React.createElement("option",{key:ph.id,value:ph.id},ph.id))
+                  )
+                ),
+                React.createElement("div",null,React.createElement(FL,null,"Due Date"),React.createElement("input",{value:form.due,onChange:e=>f("due")(e.target.value),className:"inp",placeholder:"30 Sep"})),
+                React.createElement("div",{style:{gridColumn:"1/-1"}},
+                  React.createElement("button",{onClick:saveEdit,style:{width:"100%",background:`${ph.color}1a`,border:`1px solid ${ph.color}`,borderRadius:9,padding:10,color:ph.color,fontWeight:700,fontSize:13}},"Save Changes")
+                )
+              )
+            );
+          })
+        );
+      }),
+      !addMode
+        ? React.createElement("button",{
+            onClick:()=>{setAddMode(true);setEditing(null);setForm(blank);},
+            style:{width:"100%",background:"#4ade800d",border:"1.5px dashed #4ade8044",borderRadius:12,padding:14,color:"#4ade80",fontWeight:600,fontSize:13,marginTop:4}
+          },"+ Add Milestone")
+        : React.createElement("div",{style:{background:"var(--card)",border:"1px solid #4ade8044",borderRadius:14,padding:16,marginTop:8}},
+            React.createElement("div",{style:{fontFamily:"'Syne',sans-serif",fontSize:14,fontWeight:700,color:"var(--text)",marginBottom:14}},"New Milestone"),
+            React.createElement(FL,null,"Action"),
+            React.createElement("input",{value:form.action,onChange:e=>f("action")(e.target.value),className:"inp",placeholder:"What you need to achieve...",style:{marginBottom:10}}),
+            React.createElement("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:12}},
+              React.createElement("div",null,
+                React.createElement(FL,null,"Phase"),
+                React.createElement("select",{value:form.ph,onChange:e=>f("ph")(e.target.value),className:"inp"},
+                  phases.map(ph=>React.createElement("option",{key:ph.id,value:ph.id},ph.id))
+                )
+              ),
+              React.createElement("div",null,React.createElement(FL,null,"Due Date"),React.createElement("input",{value:form.due,onChange:e=>f("due")(e.target.value),className:"inp",placeholder:"30 Sep"}))
+            ),
+            React.createElement("div",{style:{display:"flex",gap:8}},
+              React.createElement("button",{onClick:saveNew,style:{flex:1,background:"#4ade801a",border:"1px solid #4ade80",borderRadius:9,padding:11,color:"#4ade80",fontWeight:700,fontSize:13}},"Add Milestone"),
+              React.createElement("button",{onClick:()=>setAddMode(false),style:{flex:1,background:"transparent",border:"1px solid var(--border)",borderRadius:9,padding:11,color:"var(--muted)",fontSize:13}},"Cancel")
+            )
+          )
+    );
+  }
+
+  /* ── render ── */
+  const SECTIONS = [
+    { k:"phases",     l:"🎯 Phases",     badge: phases.length },
+    { k:"plan",       l:"🗓 Weekly Plan", badge: plan.length },
+    { k:"milestones", l:"✅ Milestones",  badge: miles.length },
+  ];
+
+  return React.createElement("div", null,
+    React.createElement(SL, null, "Customise Your Learning Plan"),
+    /* section switcher */
+    React.createElement("div",{style:{display:"flex",gap:8,marginBottom:22,flexWrap:"wrap"}},
+      SECTIONS.map(s =>
+        React.createElement("button",{
+          key:s.k, onClick:()=>setSection(s.k),
+          style:{
+            padding:"9px 16px", borderRadius:10, fontSize:13, fontWeight:600,
+            background: section===s.k ? "rgba(34,211,238,0.12)" : "var(--card)",
+            border: `1px solid ${section===s.k?"#22d3ee":"var(--border)"}`,
+            color: section===s.k ? "#22d3ee" : "var(--muted)",
+            display:"flex", alignItems:"center", gap:7, transition:"all 0.15s"
+          }
+        },
+          s.l,
+          React.createElement("span",{style:{background:"var(--border)",borderRadius:20,padding:"1px 7px",fontSize:11,color:"var(--text)"}},s.badge)
+        )
+      )
+    ),
+    section==="phases"     && React.createElement(PhasesSection),
+    section==="plan"       && React.createElement(PlanSection),
+    section==="milestones" && React.createElement(MilestonesSection)
+  );
+}
+
+/* ═══════════════════════════════════════════════════
    APP ROOT
 ═══════════════════════════════════════════════════ */
 function App() {
@@ -1791,29 +2266,74 @@ function App() {
   const localTsRef = useRef(null); // tracks our own save timestamp to skip echo
   const today = getKey();
 
+  /* Sync mutable globals from user schema so all helpers pick up edits */
+  function applySchema(s) {
+    if (!s) return;
+    PHASES      = s.phases?.length     ? s.phases     : DEFAULT_PHASES;
+    WEEKLY_PLAN = s.weeklyPlan?.length ? s.weeklyPlan : DEFAULT_WEEKLY_PLAN;
+    MILESTONES  = s.milestones?.length ? s.milestones : DEFAULT_MILESTONES;
+    RESOURCES   = s.resources?.length  ? s.resources  : DEFAULT_RESOURCES;
+    PROJECTS    = s.projects?.length   ? s.projects   : DEFAULT_PROJECTS;
+    PC = Object.fromEntries(PHASES.map(p => [p.id, p.color]));
+  }
+
   /* Helper: build full data object from raw Firebase payload */
   function buildData(p) {
+    const schema = p.schema || defSchema();
+    applySchema(schema);
     return {
-      weeklyLog: { ...defWeekly(), ...(p.weeklyLog || {}) },
-      resources: { ...defRes(), ...(p.resources || {}) },
-      projects: { ...defProjects(), ...(p.projects || {}) },
-      milestones: { ...defMiles(), ...(p.milestones || {}) },
-      dailyLog: p.dailyLog || {},
-      customPlans: p.customPlans || [],
-      flashcards: p.flashcards || defFlash(),
-      settings: p.settings || { githubUsername: "" },
-      lastExportDate: p.lastExportDate || null,
-      _ts: p._ts || null,
+      weeklyLog:     { ...defWeekly(),   ...(p.weeklyLog   || {}) },
+      resources:     { ...defRes(),      ...(p.resources   || {}) },
+      projects:      { ...defProjects(), ...(p.projects    || {}) },
+      milestones:    { ...defMiles(),    ...(p.milestones  || {}) },
+      dailyLog:      p.dailyLog      || {},
+      customPlans:   p.customPlans   || [],
+      flashcards:    p.flashcards    || defFlash(),
+      settings:      p.settings      || { githubUsername: "" },
+      lastExportDate:p.lastExportDate|| null,
+      schema,
+      _ts:           p._ts           || null,
     };
   }
 
   function defaultData() {
     return {
-      weeklyLog: defWeekly(), resources: defRes(), projects: defProjects(),
-      milestones: defMiles(), dailyLog: {}, customPlans: [], flashcards: defFlash(),
-      settings: { githubUsername: "" }, lastExportDate: null, _ts: null,
+      weeklyLog:defWeekly(), resources:defRes(), projects:defProjects(),
+      milestones:defMiles(), dailyLog:{}, customPlans:[], flashcards:defFlash(),
+      settings:{githubUsername:""}, lastExportDate:null, schema:defSchema(), _ts:null,
     };
   }
+
+  /* Update schema and keep status maps in sync with new items */
+  const updSchema = newSchema => {
+    applySchema(newSchema);
+    const d = { ...data, schema: newSchema };
+    // Ensure weeklyLog has entries for all weeks
+    if (newSchema.weeklyPlan?.length) {
+      const wl = { ...d.weeklyLog };
+      newSchema.weeklyPlan.forEach(w => { if (!wl[w.w]) wl[w.w] = { hours: "", status: "Not Started", notes: "" }; });
+      d.weeklyLog = wl;
+    }
+    // Ensure milestone status entries
+    if (newSchema.milestones?.length) {
+      const ms = { ...d.milestones };
+      newSchema.milestones.forEach(m => { if (!ms[m.id]) ms[m.id] = { done: false, notes: "" }; });
+      d.milestones = ms;
+    }
+    // Ensure resource status entries
+    if (newSchema.resources?.length) {
+      const rs = { ...d.resources };
+      newSchema.resources.forEach(r => { if (!rs[r.id]) rs[r.id] = { status: "Not Started", notes: "" }; });
+      d.resources = rs;
+    }
+    // Ensure project status entries
+    if (newSchema.projects?.length) {
+      const ps = { ...d.projects };
+      newSchema.projects.forEach(p => { if (!ps[p.id]) ps[p.id] = { status: "Not Started", startDate: "", githubLink: "", linkedIn: false, notes: "", tools: p.tools || "", name: p.name }; });
+      d.projects = ps;
+    }
+    save(d);
+  };
 
   /* Real-time Firebase listener + connection monitor */
   useEffect(() => {
@@ -1932,8 +2452,9 @@ function App() {
     { k: "resources", l: "📖 Resources" },
     { k: "projects", l: "🚀 Projects" },
     { k: "goals", l: "🎯 CV & Goals" },
-    { k: "myplans", l: "📂 My Plans" },
-    { k: "files", l: "📁 Local Files" },
+    { k: "myplans",   l: "📂 My Plans" },
+    { k: "files",     l: "📁 Local Files" },
+    { k: "customize", l: "⚙️ Customize" },
   ];
 
   const modalContent = {
@@ -1980,8 +2501,9 @@ function App() {
           tab === "resources" && React.createElement(ResTab, { resources: data.resources, updRes }),
           tab === "projects" && React.createElement(ProjTab, { projects: data.projects, updProj }),
           tab === "goals" && React.createElement(GoalsTab, { milestones: data.milestones, updMile }),
-          tab === "myplans" && React.createElement(MyPlansTab, { customPlans: data.customPlans, addPlan, delPlan, updPlanRow }),
-          tab === "files" && React.createElement(FilesTab, null),
+          tab === "myplans"   && React.createElement(MyPlansTab,   { customPlans: data.customPlans, addPlan, delPlan, updPlanRow }),
+          tab === "files"     && React.createElement(FilesTab,     null),
+          tab === "customize" && React.createElement(CustomizeTab, { data, updSchema, weeklyLog: data.weeklyLog, milestoneStatus: data.milestones, resourceStatus: data.resources }),
         )
       )
     ),
