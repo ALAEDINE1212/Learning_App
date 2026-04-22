@@ -50,10 +50,10 @@ const GYM_TYPES = ["Weights", "Cardio", "HIIT", "Football", "Swimming", "Yoga", 
 const STATUSES = ["Not Started", "In Progress", "Done"];
 
 const DEFAULT_PHASES = [
-  { id: "Phase 1", label: "Foundation", color: "#22d3ee", dates: "14 Apr – 10 May", target: 60 },
-  { id: "Phase 2", label: "Core ML",    color: "#f5c518", dates: "11 May – 21 Jun", target: 90 },
-  { id: "Phase 3", label: "Projects",   color: "#fb923c", dates: "22 Jun – 9 Aug",  target: 100 },
-  { id: "Phase 4", label: "Portfolio",  color: "#c084fc", dates: "10 Aug – 30 Sep", target: 100 },
+  { id: "Phase 1", label: "Foundation", color: "#22d3ee", dates: "14 Apr - 10 May", target: 60 },
+  { id: "Phase 2", label: "Core ML + First Deploy", color: "#f5c518", dates: "11 May - 21 Jun", target: 90 },
+  { id: "Phase 3", label: "Neural Networks & Project B", color: "#fb923c", dates: "22 Jun - 9 Aug", target: 105 },
+  { id: "Phase 4", label: "Production & Job Hunt", color: "#c084fc", dates: "10 Aug - 30 Sep", target: 105 },
 ];
 let PHASES = DEFAULT_PHASES;
 let PC = Object.fromEntries(DEFAULT_PHASES.map(p => [p.id, p.color]));
@@ -67,59 +67,66 @@ const NIGHT_SHIFTS = [
 
 const DEFAULT_WEEKLY_PLAN = [
   { w: "Week 1", d: "14/04/26", p: "Phase 1", topic: "Python basics, NumPy, Pandas intro", resource: "Kaggle Python Micro-course" },
-  { w: "Week 2", d: "21/04/26", p: "Phase 1", topic: "Statistics: mean, variance, distributions", resource: "Khan Academy Statistics" },
-  { w: "Week 3", d: "28/04/26", p: "Phase 1", topic: "Linear algebra: vectors, matrices", resource: "3Blue1Brown Linear Algebra" },
-  { w: "Week 4", d: "05/05/26", p: "Phase 1", topic: "Data viz with Matplotlib & Seaborn", resource: "Kaggle Pandas Micro-course" },
-  { w: "Week 5", d: "11/05/26", p: "Phase 2", topic: "Andrew Ng ML — regression + gradient descent", resource: "ML Specialisation (Coursera)" },
-  { w: "Week 6", d: "18/05/26", p: "Phase 2", topic: "Classification: logistic regression, KNN", resource: "ML Specialisation (Coursera)" },
-  { w: "Week 7", d: "25/05/26", p: "Phase 2", topic: "Decision trees, Random Forests", resource: "ML Specialisation (Coursera)" },
-  { w: "Week 8", d: "01/06/26", p: "Phase 2", topic: "Exploratory Data Analysis deep dive", resource: "Kaggle EDA" },
-  { w: "Week 9", d: "08/06/26", p: "Phase 2", topic: "Model evaluation: accuracy, precision, F1", resource: "ML Specialisation (Coursera)" },
-  { w: "Week 10", d: "15/06/26", p: "Phase 2", topic: "First Kaggle competition (Titanic)", resource: "Kaggle" },
-  { w: "Week 11", d: "22/06/26", p: "Phase 3", topic: "Feature engineering + cross-validation", resource: "Kaggle Feature Engineering" },
-  { w: "Week 12", d: "29/06/26", p: "Phase 3", topic: "SVM, gradient boosting (XGBoost basics)", resource: "Kaggle XGBoost course" },
-  { w: "Week 13", d: "06/07/26", p: "Phase 3", topic: "Unsupervised: clustering, PCA", resource: "Hands-on ML (Géron book)" },
-  { w: "Week 14", d: "13/07/26", p: "Phase 3", topic: "Real-world project: house price prediction", resource: "Kaggle" },
-  { w: "Week 15", d: "20/07/26", p: "Phase 3", topic: "Intro to neural networks (fast.ai lesson 1-3)", resource: "fast.ai" },
-  { w: "Week 16", d: "27/07/26", p: "Phase 3", topic: "SQL for data analysis", resource: "Mode SQL Tutorial" },
-  { w: "Week 17", d: "03/08/26", p: "Phase 3", topic: "Portfolio project #2", resource: "GitHub / Kaggle" },
-  { w: "Week 18", d: "10/08/26", p: "Phase 4", topic: "NLP basics: text classification, TF-IDF", resource: "Kaggle NLP course" },
-  { w: "Week 19", d: "17/08/26", p: "Phase 4", topic: "Time series data analysis project", resource: "Kaggle Time Series" },
-  { w: "Week 20", d: "24/08/26", p: "Phase 4", topic: "Model deployment: Streamlit or FastAPI", resource: "Streamlit docs" },
-  { w: "Week 21", d: "31/08/26", p: "Phase 4", topic: "Capstone project: end-to-end ML pipeline", resource: "GitHub" },
-  { w: "Week 22", d: "07/09/26", p: "Phase 4", topic: "Capstone continued + write-up", resource: "GitHub / LinkedIn" },
-  { w: "Week 23", d: "14/09/26", p: "Phase 4", topic: "Interview prep: ML concepts + stats Qs", resource: "DataLemur" },
-  { w: "Week 24", d: "21/09/26", p: "Phase 4", topic: "Polish CV, LinkedIn, GitHub + apply", resource: "LinkedIn / CV" },
+  { w: "Week 2", d: "21/04/26", p: "Phase 1", topic: "Statistics: mean, variance, distributions, probability", resource: "Khan Academy Statistics" },
+  { w: "Week 3", d: "28/04/26", p: "Phase 1", topic: "Linear algebra: vectors, matrices, dot products", resource: "3Blue1Brown Linear Algebra" },
+  { w: "Week 4", d: "05/05/26", p: "Phase 1", topic: "Data visualisation with Matplotlib & Seaborn", resource: "Kaggle Pandas Micro-course" },
+  { w: "Week 5", d: "11/05/26", p: "Phase 2", topic: "Andrew Ng ML: regression, gradient descent, cost functions", resource: "ML Specialisation - Coursera (Ng Course 1)" },
+  { w: "Week 6", d: "18/05/26", p: "Phase 2", topic: "Classification: logistic regression, KNN - Ng Course 2 start", resource: "ML Specialisation - Coursera" },
+  { w: "Week 7", d: "25/05/26", p: "Phase 2", topic: "Classification, logistic regression, decision trees - finish Ng Course 2, Geron Ch.5-6", resource: "ML Specialisation (Coursera) + Hands-on ML (Geron)" },
+  { w: "Week 8", d: "01/06/26", p: "Phase 2", topic: "Mini-deployment sprint: FastAPI endpoint, Streamlit Cloud, MLflow tracking, model card, README", resource: "Streamlit docs + FastAPI docs + MLflow docs" },
+  { w: "Week 9", d: "08/06/26", p: "Phase 2", topic: "XGBoost/LightGBM + feature engineering - Geron Ch.7, enter live Kaggle Playground competition", resource: "Kaggle XGBoost course + Hands-on ML (Geron)" },
+  { w: "Week 10", d: "15/06/26", p: "Phase 2", topic: "Consolidation week 1: blank-page re-derivations, 6-question mini-exam, refactor Project A to portfolio standard", resource: "Anki + revision notes" },
+  { w: "Week 11", d: "22/06/26", p: "Phase 3", topic: "fast.ai Lessons 1-2 (proper pass) + Chollet Deep Learning with Python Ch.1-4, start CV draft", resource: "fast.ai + Deep Learning with Python (Chollet)" },
+  { w: "Week 12", d: "29/06/26", p: "Phase 3", topic: "fast.ai Lesson 3 + unsupervised: k-means, PCA - CV draft 1 complete, LinkedIn headline rewritten, pin Project A on GitHub", resource: "fast.ai + Hands-on ML (Geron)" },
+  { w: "Week 13", d: "06/07/26", p: "Phase 3", topic: "fast.ai Lessons 4-5: NLP + tabular neural nets - pick Project B theme, submit Tier-1 applications (Goldman, Amazon, Google)", resource: "fast.ai" },
+  { w: "Week 14", d: "13/07/26", p: "Phase 3", topic: "Advanced SQL: window functions, recursive CTEs, query optimisation + build one Airflow DAG for weekly retraining", resource: "DataLemur medium/hard tier + Apache Airflow docs" },
+  { w: "Week 15", d: "20/07/26", p: "Phase 3", topic: "fast.ai Lessons 6-7 + Project B modelling: feature engineering, first real model - submit 5 more Tier-2/3 applications", resource: "fast.ai" },
+  { w: "Week 16", d: "27/07/26", p: "Phase 3", topic: "Project B finished and deployed: data, model, FastAPI, UI, model card, blog post, MLflow experiment tracking", resource: "GitHub + MLflow + Weights & Biases" },
+  { w: "Week 17", d: "03/08/26", p: "Phase 3", topic: "LLM / RAG intro: Chip Huyen AI Engineering, HuggingFace pipelines, build RAG prototype with LangChain + Chroma", resource: "AI Engineering (Huyen 2025) + HuggingFace docs" },
+  { w: "Week 18", d: "10/08/26", p: "Phase 4", topic: "Consolidation week 2: backprop by hand, SQL window functions closed-book, Feynman-test LLM explanation, CV finalised", resource: "Designing ML Systems (Huyen) Ch.6-9" },
+  { w: "Week 19", d: "17/08/26", p: "Phase 4", topic: "MLOps fundamentals: Docker in depth, GitHub Actions CI/CD, MLflow end-to-end, Azure ML deployment + AWS deployment", resource: "Designing ML Systems (Huyen) + Azure docs" },
+  { w: "Week 20", d: "24/08/26", p: "Phase 4", topic: "Capstone build Part 1: production-grade RAG or time-series forecasting service, CI/CD pipeline, MLflow tracking", resource: "GitHub + LangChain/LlamaIndex docs" },
+  { w: "Week 21", d: "31/08/26", p: "Phase 4", topic: "Capstone build Part 2: monitoring dashboard (Grafana or Streamlit), pytest unit tests, Pydantic/Great Expectations data validation", resource: "GitHub" },
+  { w: "Week 22", d: "07/09/26", p: "Phase 4", topic: "Capstone build Part 3: model card, 1,000-word post-mortem blog post published on LinkedIn", resource: "GitHub / LinkedIn" },
+  { w: "Week 23", d: "14/09/26", p: "Phase 4", topic: "Capstone polish + interview prep ramp: 50 LeetCode Easy/Medium, DataLemur through Medium, 3 Pramp mock interviews", resource: "LeetCode + DataLemur + Pramp + Intro to ML Interviews (Huyen)" },
+  { w: "Week 24", d: "21/09/26", p: "Phase 4", topic: "Applications sprint: 30+ applications submitted, CV tailored to 20 target employers, SHL/Cappfinity numerical reasoning practice, cover letters", resource: "LinkedIn / CV / Prospects.ac.uk / Bright Network" },
 ];
-let WEEKLY_PLAN = DEFAULT_WEEKLY_PLAN;
+let WEEKLY_PLAN = DEFAULT_WEEKLY_PLAN; = DEFAULT_WEEKLY_PLAN;
 
 const DEFAULT_RESOURCES = [
   { id: "r1", name: "Kaggle Python Micro-course", platform: "Kaggle", ph: "Phase 1", type: "Course", cost: "Free" },
   { id: "r2", name: "Kaggle Pandas Micro-course", platform: "Kaggle", ph: "Phase 1", type: "Course", cost: "Free" },
-  { id: "r3", name: "3Blue1Brown — Essence of Linear Algebra", platform: "YouTube", ph: "Phase 1", type: "Video", cost: "Free" },
+  { id: "r3", name: "3Blue1Brown: Essence of Linear Algebra", platform: "YouTube", ph: "Phase 1", type: "Video", cost: "Free" },
   { id: "r4", name: "Khan Academy Statistics", platform: "Khan Academy", ph: "Phase 1", type: "Course", cost: "Free" },
   { id: "r5", name: "Math for ML & Data Science (DeepLearning.AI)", platform: "Coursera", ph: "Phase 1", type: "Specialisation", cost: "Audit/Aid" },
-  { id: "r6", name: "ML Specialisation — Andrew Ng", platform: "Coursera", ph: "Phase 2", type: "Specialisation", cost: "Audit/Aid" },
+  { id: "r6", name: "ML Specialisation: Andrew Ng (Courses 1-3)", platform: "Coursera", ph: "Phase 2", type: "Specialisation", cost: "Audit/Aid" },
   { id: "r7", name: "Scikit-learn official docs + examples", platform: "scikit-learn.org", ph: "Phase 2", type: "Docs", cost: "Free" },
   { id: "r8", name: "Kaggle Intro to ML + Intermediate ML", platform: "Kaggle", ph: "Phase 2", type: "Course", cost: "Free" },
-  { id: "r9", name: "Kaggle Feature Engineering course", platform: "Kaggle", ph: "Phase 3", type: "Course", cost: "Free" },
-  { id: "r10", name: "Kaggle XGBoost course", platform: "Kaggle", ph: "Phase 3", type: "Course", cost: "Free" },
-  { id: "r11", name: "fast.ai — Practical Deep Learning", platform: "fast.ai", ph: "Phase 3", type: "Course", cost: "Free" },
-  { id: "r12", name: "Mode SQL Tutorial", platform: "mode.com", ph: "Phase 3", type: "Tutorial", cost: "Free" },
-  { id: "r13", name: "Hands-on ML with Scikit-Learn & TF (Géron)", platform: "Book", ph: "Phase 3", type: "Book", cost: "~£30" },
-  { id: "r14", name: "Kaggle NLP Micro-course", platform: "Kaggle", ph: "Phase 4", type: "Course", cost: "Free" },
-  { id: "r15", name: "Kaggle Time Series course", platform: "Kaggle", ph: "Phase 4", type: "Course", cost: "Free" },
-  { id: "r16", name: "Deep Learning Specialisation — Andrew Ng", platform: "Coursera", ph: "Phase 4", type: "Specialisation", cost: "Audit/Aid" },
-  { id: "r17", name: "Streamlit docs", platform: "streamlit.io", ph: "Phase 4", type: "Docs", cost: "Free" },
-  { id: "r18", name: "DataLemur — ML interview questions", platform: "datalemur.com", ph: "Phase 4", type: "Practice", cost: "Free" },
+  { id: "r9", name: "Hands-on ML with Scikit-Learn & TF (Geron)", platform: "Book", ph: "Phase 2", type: "Book", cost: "~30 GBP" },
+  { id: "r10", name: "MLflow docs", platform: "mlflow.org", ph: "Phase 2", type: "Docs", cost: "Free" },
+  { id: "r11", name: "fast.ai: Practical Deep Learning for Coders", platform: "fast.ai", ph: "Phase 3", type: "Course", cost: "Free" },
+  { id: "r12", name: "Deep Learning with Python 3rd ed (Chollet)", platform: "Book", ph: "Phase 3", type: "Book", cost: "~35 GBP" },
+  { id: "r13", name: "Kaggle Feature Engineering course", platform: "Kaggle", ph: "Phase 3", type: "Course", cost: "Free" },
+  { id: "r14", name: "Kaggle XGBoost course", platform: "Kaggle", ph: "Phase 3", type: "Course", cost: "Free" },
+  { id: "r15", name: "DataLemur: SQL + ML questions (medium/hard tier)", platform: "datalemur.com", ph: "Phase 3", type: "Practice", cost: "Free" },
+  { id: "r16", name: "Apache Airflow docs", platform: "airflow.apache.org", ph: "Phase 3", type: "Docs", cost: "Free" },
+  { id: "r17", name: "AI Engineering (Chip Huyen, 2025)", platform: "Book", ph: "Phase 3", type: "Book", cost: "~35 GBP" },
+  { id: "r18", name: "HuggingFace documentation + LangChain docs", platform: "huggingface.co", ph: "Phase 3", type: "Docs", cost: "Free" },
+  { id: "r19", name: "Designing ML Systems (Chip Huyen)", platform: "Book", ph: "Phase 4", type: "Book", cost: "~30 GBP" },
+  { id: "r20", name: "Azure ML documentation", platform: "Microsoft Azure", ph: "Phase 4", type: "Docs", cost: "Free" },
+  { id: "r21", name: "GitHub Actions CI/CD documentation", platform: "GitHub", ph: "Phase 4", type: "Docs", cost: "Free" },
+  { id: "r22", name: "LeetCode: Easy/Medium (arrays, strings, hashmaps)", platform: "leetcode.com", ph: "Phase 4", type: "Practice", cost: "Free" },
+  { id: "r23", name: "Intro to ML Interviews (Chip Huyen)", platform: "Book/Online", ph: "Phase 4", type: "Book", cost: "Free" },
+  { id: "r24", name: "Pramp: mock technical interviews", platform: "pramp.com", ph: "Phase 4", type: "Practice", cost: "Free" },
+  { id: "r25", name: "Streamlit docs + FastAPI docs", platform: "streamlit.io", ph: "Phase 2", type: "Docs", cost: "Free" },
 ];
-let RESOURCES = DEFAULT_RESOURCES;
+let RESOURCES = DEFAULT_RESOURCES; = DEFAULT_RESOURCES;
 
 const DEFAULT_PROJECTS = [
-  { id: "p1", name: "Titanic Survival Prediction", ph: "Phase 2", tools: "pandas, scikit-learn" },
-  { id: "p2", name: "House Price Prediction (Kaggle)", ph: "Phase 3", tools: "pandas, XGBoost, sklearn" },
-  { id: "p3", name: "Portfolio Project #2 (your choice)", ph: "Phase 3", tools: "" },
-  { id: "p4", name: "Capstone: End-to-End ML Pipeline", ph: "Phase 4", tools: "scikit-learn, Streamlit" },
+  { id: "p1", name: "Project A: Tabular Classification / Regression Model", ph: "Phase 2", tools: "pandas, scikit-learn, FastAPI" },
+  { id: "p2", name: "Project A: Deployed (Streamlit Cloud + MLflow + model card)", ph: "Phase 2", tools: "FastAPI, Streamlit, MLflow, Docker" },
+  { id: "p3", name: "Project B: NLP or Time-Series (pick your theme)", ph: "Phase 3", tools: "fast.ai, HuggingFace or pandas" },
+  { id: "p4", name: "Capstone: Production RAG or Forecasting Service", ph: "Phase 4", tools: "LangChain/LlamaIndex, FastAPI, CI/CD, MLflow" },
   { id: "p5", name: "(Add your own)", ph: "", tools: "" },
   { id: "p6", name: "(Add your own)", ph: "", tools: "" },
 ];
@@ -129,18 +136,18 @@ const DEFAULT_MILESTONES = [
   { id: "m1", action: "Set up GitHub profile + push first notebook", ph: "Phase 1", due: "10 May" },
   { id: "m2", action: "Add Python, NumPy, Pandas to LinkedIn skills", ph: "Phase 1", due: "10 May" },
   { id: "m3", action: "Complete Kaggle Python + Pandas certificates", ph: "Phase 1", due: "10 May" },
-  { id: "m4", action: "Push Titanic notebook to GitHub with README", ph: "Phase 2", due: "21 Jun" },
-  { id: "m5", action: "Add Machine Learning + scikit-learn to LinkedIn", ph: "Phase 2", due: "21 Jun" },
-  { id: "m6", action: "Post first LinkedIn update (what you built)", ph: "Phase 2", due: "21 Jun" },
-  { id: "m7", action: "Add SQL, XGBoost, EDA to LinkedIn skills", ph: "Phase 3", due: "9 Aug" },
-  { id: "m8", action: "Write LinkedIn case study for house price project", ph: "Phase 3", due: "9 Aug" },
-  { id: "m9", action: "Update CV — Projects section (2 projects min.)", ph: "Phase 3", due: "9 Aug" },
-  { id: "m10", action: "Update CV — Technical Skills section", ph: "Phase 4", due: "30 Sep" },
-  { id: "m11", action: "Deploy capstone as Streamlit app (live link)", ph: "Phase 4", due: "30 Sep" },
-  { id: "m12", action: "Publish capstone write-up on LinkedIn", ph: "Phase 4", due: "30 Sep" },
-  { id: "m13", action: "Request 1 LinkedIn recommendation", ph: "Phase 4", due: "30 Sep" },
-  { id: "m14", action: "List 3 projects on CV with tools + outcomes", ph: "Phase 4", due: "30 Sep" },
-  { id: "m15", action: "Apply to at least 3 data/ML roles or internships", ph: "Phase 4", due: "30 Sep" },
+  { id: "m4", action: "Deploy Project A to Streamlit Cloud or HuggingFace Spaces", ph: "Phase 2", due: "21 Jun" },
+  { id: "m5", action: "Write model card and README for Project A", ph: "Phase 2", due: "21 Jun" },
+  { id: "m6", action: "Write blog post about deployment decisions for Project A", ph: "Phase 2", due: "21 Jun" },
+  { id: "m7", action: "CV draft 1 complete + LinkedIn headline rewritten", ph: "Phase 3", due: "9 Aug" },
+  { id: "m8", action: "Submit Tier-1 placement applications (Goldman, Amazon, Google, Meta, Microsoft)", ph: "Phase 3", due: "9 Aug" },
+  { id: "m9", action: "Build and deploy Airflow DAG that retrains Project A weekly", ph: "Phase 3", due: "9 Aug" },
+  { id: "m10", action: "CV polished to final + LinkedIn Featured section updated with Projects A and B", ph: "Phase 4", due: "30 Sep" },
+  { id: "m11", action: "Capstone deployed with CI/CD, MLflow tracking, and monitoring live", ph: "Phase 4", due: "30 Sep" },
+  { id: "m12", action: "Publish capstone 1,000-word post-mortem blog post on LinkedIn", ph: "Phase 4", due: "30 Sep" },
+  { id: "m13", action: "Complete 50 LeetCode Easy/Medium + DataLemur problems", ph: "Phase 4", due: "30 Sep" },
+  { id: "m14", action: "Schedule and complete 3 Pramp mock technical interviews", ph: "Phase 4", due: "30 Sep" },
+  { id: "m15", action: "Submit 30+ job applications (Tier-1, Tier-2/3, Civil Service Fast Stream)", ph: "Phase 4", due: "30 Sep" },
 ];
 let MILESTONES = DEFAULT_MILESTONES;
 
@@ -275,12 +282,12 @@ function get30DayHeatmap(dailyLog) {
   });
 }
 
-const defWeekly   = () => Object.fromEntries(WEEKLY_PLAN.map(w  => [w.w,  { hours: "", status: "Not Started", notes: "" }]));
-const defRes      = () => Object.fromEntries(RESOURCES.map(r   => [r.id,  { status: "Not Started", notes: "" }]));
-const defProjects = () => Object.fromEntries(PROJECTS.map(p    => [p.id,  { status: "Not Started", startDate: "", githubLink: "", linkedIn: false, notes: "", tools: p.tools, name: p.name }]));
-const defMiles    = () => Object.fromEntries(MILESTONES.map(m  => [m.id,  { done: false, notes: "" }]));
-const defFlash    = () => [];
-const defSchema   = () => ({ phases: null, weeklyPlan: null, milestones: null, resources: null, projects: null });
+const defWeekly = () => Object.fromEntries(WEEKLY_PLAN.map(w => [w.w, { hours: "", status: "Not Started", notes: "" }]));
+const defRes = () => Object.fromEntries(RESOURCES.map(r => [r.id, { status: "Not Started", notes: "" }]));
+const defProjects = () => Object.fromEntries(PROJECTS.map(p => [p.id, { status: "Not Started", startDate: "", githubLink: "", linkedIn: false, notes: "", tools: p.tools, name: p.name }]));
+const defMiles = () => Object.fromEntries(MILESTONES.map(m => [m.id, { done: false, notes: "" }]));
+const defFlash = () => [];
+const defSchema = () => ({ phases: null, weeklyPlan: null, milestones: null, resources: null, projects: null });
 
 /* ═══════════════════════════════════════════════════
    SHARED COMPONENTS
@@ -1785,33 +1792,35 @@ function FilesTab() {
 }
 
 /* ═══════════════════════════════════════════════════
-   CUSTOMIZE TAB
+   CUSTOMIZE TAB  — sub-components at module level
+   so React never loses their state between renders
 ═══════════════════════════════════════════════════ */
-const PHASE_PALETTE = ["#22d3ee","#f5c518","#fb923c","#c084fc","#4ade80","#f87171","#a78bfa","#38bdf8","#fbbf24","#34d399"];
+const PHASE_PALETTE = ["#22d3ee", "#f5c518", "#fb923c", "#c084fc", "#4ade80", "#f87171", "#a78bfa", "#38bdf8", "#fbbf24", "#34d399"];
+const RESOURCE_TYPES = ["Course", "Specialisation", "Video", "Docs", "Tutorial", "Book", "Practice", "Other"];
 
 function CustomizeTab({ data, updSchema, weeklyLog, milestoneStatus, resourceStatus }) {
-  const schema  = data.schema || defSchema();
-  const phases  = schema.phases?.length     ? schema.phases     : DEFAULT_PHASES;
-  const plan    = schema.weeklyPlan?.length ? schema.weeklyPlan : DEFAULT_WEEKLY_PLAN;
-  const miles   = schema.milestones?.length ? schema.milestones : DEFAULT_MILESTONES;
-  const res     = schema.resources?.length  ? schema.resources  : DEFAULT_RESOURCES;
-  const projs   = schema.projects?.length   ? schema.projects   : DEFAULT_PROJECTS;
+  const schema = data.schema || defSchema();
+  const phases = schema.phases?.length ? schema.phases : DEFAULT_PHASES;
+  const plan = schema.weeklyPlan?.length ? schema.weeklyPlan : DEFAULT_WEEKLY_PLAN;
+  const miles = schema.milestones?.length ? schema.milestones : DEFAULT_MILESTONES;
+  const res = schema.resources?.length ? schema.resources : DEFAULT_RESOURCES;
+  const projs = schema.projects?.length ? schema.projects : DEFAULT_PROJECTS;
 
   const [section, setSection] = useState("phases");
 
   /* ── helpers ── */
-  const savePhases  = p  => updSchema({ ...schema, phases: p, weeklyPlan: plan, milestones: miles, resources: res, projects: projs });
-  const savePlan    = pl => updSchema({ ...schema, phases, weeklyPlan: pl, milestones: miles, resources: res, projects: projs });
-  const saveMiles   = m  => updSchema({ ...schema, phases, weeklyPlan: plan, milestones: m, resources: res, projects: projs });
-  const saveRes     = r  => updSchema({ ...schema, phases, weeklyPlan: plan, milestones: miles, resources: r, projects: projs });
-  const saveProjs   = pj => updSchema({ ...schema, phases, weeklyPlan: plan, milestones: miles, resources: res, projects: pj });
+  const savePhases = p => updSchema({ ...schema, phases: p, weeklyPlan: plan, milestones: miles, resources: res, projects: projs });
+  const savePlan = pl => updSchema({ ...schema, phases, weeklyPlan: pl, milestones: miles, resources: res, projects: projs });
+  const saveMiles = m => updSchema({ ...schema, phases, weeklyPlan: plan, milestones: m, resources: res, projects: projs });
+  const saveRes = r => updSchema({ ...schema, phases, weeklyPlan: plan, milestones: miles, resources: r, projects: projs });
+  const saveProjs = pj => updSchema({ ...schema, phases, weeklyPlan: plan, milestones: miles, resources: res, projects: pj });
 
   /* ── analysis ── */
   function phaseStats(ph) {
     const weeks = plan.filter(w => w.p === ph.id);
-    const done  = weeks.filter(w => (weeklyLog[w.w]?.status) === "Done").length;
+    const done = weeks.filter(w => (weeklyLog[w.w]?.status) === "Done").length;
     const mDone = miles.filter(m => m.ph === ph.id && milestoneStatus[m.id]?.done).length;
-    const mTot  = miles.filter(m => m.ph === ph.id).length;
+    const mTot = miles.filter(m => m.ph === ph.id).length;
     return { weeks: weeks.length, done, mDone, mTot };
   }
 
@@ -1821,13 +1830,13 @@ function CustomizeTab({ data, updSchema, weeklyLog, milestoneStatus, resourceSta
   function PhasesSection() {
     const [editing, setEditing] = useState(null); // phase id being edited
     const [addMode, setAddMode] = useState(false);
-    const blank = { id:"", label:"", color:"#22d3ee", dates:"", target:60 };
+    const blank = { id: "", label: "", color: "#22d3ee", dates: "", target: 60 };
     const [form, setForm] = useState(blank);
-    const f = k => v => setForm(p => ({...p,[k]:v}));
+    const f = k => v => setForm(p => ({ ...p, [k]: v }));
 
     function saveEdit() {
       if (!form.id.trim() || !form.label.trim()) return;
-      const updated = phases.map(p => p.id === editing ? {...form} : p);
+      const updated = phases.map(p => p.id === editing ? { ...form } : p);
       savePhases(updated); setEditing(null);
     }
     function saveNew() {
@@ -1844,79 +1853,87 @@ function CustomizeTab({ data, updSchema, weeklyLog, milestoneStatus, resourceSta
       /* phase cards */
       phases.map(ph => {
         const st = phaseStats(ph);
-        const pct = Math.min(100, Math.round((st.done / Math.max(st.weeks,1)) * 100));
+        const pct = Math.min(100, Math.round((st.done / Math.max(st.weeks, 1)) * 100));
         const isEd = editing === ph.id;
         return React.createElement("div", {
           key: ph.id,
-          style:{ background:"var(--card)", border:`1.5px solid ${ph.color}44`, borderRadius:14, marginBottom:10, overflow:"hidden",
-            transition:"box-shadow 0.2s" }
+          style: {
+            background: "var(--card)", border: `1.5px solid ${ph.color}44`, borderRadius: 14, marginBottom: 10, overflow: "hidden",
+            transition: "box-shadow 0.2s"
+          }
         },
           /* header row */
           React.createElement("div", {
-            style:{ padding:"14px 16px", display:"flex", alignItems:"center", gap:12 }
+            style: { padding: "14px 16px", display: "flex", alignItems: "center", gap: 12 }
           },
-            React.createElement("div", { style:{ width:14, height:14, borderRadius:4, background:ph.color, flexShrink:0 } }),
-            React.createElement("div", { style:{ flex:1 } },
-              React.createElement("div", { style:{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:4 } },
-                React.createElement("span", { style:{ fontFamily:"'Syne',sans-serif", fontSize:14, fontWeight:800, color:ph.color } },
+            React.createElement("div", { style: { width: 14, height: 14, borderRadius: 4, background: ph.color, flexShrink: 0 } }),
+            React.createElement("div", { style: { flex: 1 } },
+              React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 } },
+                React.createElement("span", { style: { fontFamily: "'Syne',sans-serif", fontSize: 14, fontWeight: 800, color: ph.color } },
                   `${ph.id} — ${ph.label}`),
-                React.createElement("span", { style:{ fontSize:12, color:"var(--muted)" } }, ph.dates)
+                React.createElement("span", { style: { fontSize: 12, color: "var(--muted)" } }, ph.dates)
               ),
               React.createElement(ProgBar, { pct, color: ph.color, height: 5 }),
-              React.createElement("div", { style:{ display:"flex", gap:16, marginTop:5, fontSize:11, color:"var(--muted)" } },
+              React.createElement("div", { style: { display: "flex", gap: 16, marginTop: 5, fontSize: 11, color: "var(--muted)" } },
                 React.createElement("span", null, `${st.done}/${st.weeks} weeks done`),
                 React.createElement("span", null, `${pct}% complete`),
                 React.createElement("span", null, `${st.mDone}/${st.mTot} milestones`),
                 React.createElement("span", null, `Target: ${ph.target}h`)
               )
             ),
-            React.createElement("div", { style:{ display:"flex", gap:6, flexShrink:0 } },
+            React.createElement("div", { style: { display: "flex", gap: 6, flexShrink: 0 } },
               React.createElement("button", {
-                onClick: () => { setEditing(isEd ? null : ph.id); setForm({...ph}); setAddMode(false); },
-                style:{ background: isEd?"#22d3ee1a":"var(--bg)", border:`1px solid ${isEd?"#22d3ee":"var(--border)"}`,
-                  borderRadius:7, padding:"5px 10px", color: isEd?"#22d3ee":"var(--muted)", fontSize:12 }
+                onClick: () => { setEditing(isEd ? null : ph.id); setForm({ ...ph }); setAddMode(false); },
+                style: {
+                  background: isEd ? "#22d3ee1a" : "var(--bg)", border: `1px solid ${isEd ? "#22d3ee" : "var(--border)"}`,
+                  borderRadius: 7, padding: "5px 10px", color: isEd ? "#22d3ee" : "var(--muted)", fontSize: 12
+                }
               }, isEd ? "Cancel" : "Edit"),
               React.createElement("button", {
                 onClick: () => del(ph.id),
-                style:{ background:"#f8717110", border:"1px solid #f8717133", borderRadius:7, padding:"5px 10px", color:"#f87171", fontSize:12 }
+                style: { background: "#f8717110", border: "1px solid #f8717133", borderRadius: 7, padding: "5px 10px", color: "#f87171", fontSize: 12 }
               }, "Delete")
             )
           ),
           /* edit form */
           isEd && React.createElement("div", {
-            style:{ borderTop:"1px solid var(--border)", padding:"14px 16px", display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }
+            style: { borderTop: "1px solid var(--border)", padding: "14px 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }
           },
             React.createElement("div", null,
               React.createElement(FL, null, "Phase ID"),
-              React.createElement("input", { value:form.id, onChange:e=>f("id")(e.target.value), className:"inp", placeholder:"Phase 1" })
+              React.createElement("input", { value: form.id, onChange: e => f("id")(e.target.value), className: "inp", placeholder: "Phase 1" })
             ),
             React.createElement("div", null,
               React.createElement(FL, null, "Label"),
-              React.createElement("input", { value:form.label, onChange:e=>f("label")(e.target.value), className:"inp", placeholder:"Foundation" })
+              React.createElement("input", { value: form.label, onChange: e => f("label")(e.target.value), className: "inp", placeholder: "Foundation" })
             ),
             React.createElement("div", null,
               React.createElement(FL, null, "Date Range"),
-              React.createElement("input", { value:form.dates, onChange:e=>f("dates")(e.target.value), className:"inp", placeholder:"14 Apr – 10 May" })
+              React.createElement("input", { value: form.dates, onChange: e => f("dates")(e.target.value), className: "inp", placeholder: "14 Apr – 10 May" })
             ),
             React.createElement("div", null,
               React.createElement(FL, null, "Hour Target"),
-              React.createElement("input", { type:"number", value:form.target, onChange:e=>f("target")(e.target.value), className:"inp", placeholder:"60" })
+              React.createElement("input", { type: "number", value: form.target, onChange: e => f("target")(e.target.value), className: "inp", placeholder: "60" })
             ),
-            React.createElement("div", { style:{ gridColumn:"1/-1" } },
+            React.createElement("div", { style: { gridColumn: "1/-1" } },
               React.createElement(FL, null, "Color"),
-              React.createElement("div", { style:{ display:"flex", gap:8, flexWrap:"wrap" } },
+              React.createElement("div", { style: { display: "flex", gap: 8, flexWrap: "wrap" } },
                 PHASE_PALETTE.map(c => React.createElement("button", {
-                  key:c, onClick:()=>f("color")(c),
-                  style:{ width:28, height:28, borderRadius:6, background:c, border:`3px solid ${form.color===c?"white":"transparent"}`,
-                    transition:"transform 0.1s", transform: form.color===c?"scale(1.2)":"scale(1)" }
+                  key: c, onClick: () => f("color")(c),
+                  style: {
+                    width: 28, height: 28, borderRadius: 6, background: c, border: `3px solid ${form.color === c ? "white" : "transparent"}`,
+                    transition: "transform 0.1s", transform: form.color === c ? "scale(1.2)" : "scale(1)"
+                  }
                 }))
               )
             ),
-            React.createElement("div", { style:{ gridColumn:"1/-1" } },
+            React.createElement("div", { style: { gridColumn: "1/-1" } },
               React.createElement("button", {
                 onClick: saveEdit,
-                style:{ width:"100%", background:`${form.color}1a`, border:`1px solid ${form.color}`, borderRadius:9,
-                  padding:11, color:form.color, fontWeight:700, fontSize:13 }
+                style: {
+                  width: "100%", background: `${form.color}1a`, border: `1px solid ${form.color}`, borderRadius: 9,
+                  padding: 11, color: form.color, fontWeight: 700, fontSize: 13
+                }
               }, "Save Changes")
             )
           )
@@ -1925,48 +1942,52 @@ function CustomizeTab({ data, updSchema, weeklyLog, milestoneStatus, resourceSta
       /* add phase */
       !addMode
         ? React.createElement("button", {
-            onClick:()=>{ setAddMode(true); setEditing(null); setForm(blank); },
-            style:{ width:"100%", background:"#22d3ee0d", border:"1.5px dashed #22d3ee44", borderRadius:12, padding:14,
-              color:"#22d3ee", fontWeight:600, fontSize:13, marginTop:4 }
-          }, "+ Add Phase")
+          onClick: () => { setAddMode(true); setEditing(null); setForm(blank); },
+          style: {
+            width: "100%", background: "#22d3ee0d", border: "1.5px dashed #22d3ee44", borderRadius: 12, padding: 14,
+            color: "#22d3ee", fontWeight: 600, fontSize: 13, marginTop: 4
+          }
+        }, "+ Add Phase")
         : React.createElement("div", {
-            style:{ background:"var(--card)", border:"1px solid #22d3ee44", borderRadius:14, padding:16, marginTop:8 }
-          },
-            React.createElement("div", { style:{ fontFamily:"'Syne',sans-serif", fontSize:14, fontWeight:700, color:"var(--text)", marginBottom:14 } }, "New Phase"),
-            React.createElement("div", { style:{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:10 } },
-              React.createElement("div", null,
-                React.createElement(FL, null, "Phase ID"),
-                React.createElement("input", { value:form.id, onChange:e=>f("id")(e.target.value), className:"inp", placeholder:"Phase 5" })
-              ),
-              React.createElement("div", null,
-                React.createElement(FL, null, "Label"),
-                React.createElement("input", { value:form.label, onChange:e=>f("label")(e.target.value), className:"inp", placeholder:"Advanced ML" })
-              ),
-              React.createElement("div", null,
-                React.createElement(FL, null, "Date Range"),
-                React.createElement("input", { value:form.dates, onChange:e=>f("dates")(e.target.value), className:"inp", placeholder:"1 Oct – 30 Nov" })
-              ),
-              React.createElement("div", null,
-                React.createElement(FL, null, "Hour Target"),
-                React.createElement("input", { type:"number", value:form.target, onChange:e=>f("target")(e.target.value), className:"inp", placeholder:"80" })
-              )
+          style: { background: "var(--card)", border: "1px solid #22d3ee44", borderRadius: 14, padding: 16, marginTop: 8 }
+        },
+          React.createElement("div", { style: { fontFamily: "'Syne',sans-serif", fontSize: 14, fontWeight: 700, color: "var(--text)", marginBottom: 14 } }, "New Phase"),
+          React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 10 } },
+            React.createElement("div", null,
+              React.createElement(FL, null, "Phase ID"),
+              React.createElement("input", { value: form.id, onChange: e => f("id")(e.target.value), className: "inp", placeholder: "Phase 5" })
             ),
-            React.createElement(FL, null, "Color"),
-            React.createElement("div", { style:{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:14 } },
-              PHASE_PALETTE.map(c => React.createElement("button", {
-                key:c, onClick:()=>f("color")(c),
-                style:{ width:28, height:28, borderRadius:6, background:c, border:`3px solid ${form.color===c?"white":"transparent"}` }
-              }))
+            React.createElement("div", null,
+              React.createElement(FL, null, "Label"),
+              React.createElement("input", { value: form.label, onChange: e => f("label")(e.target.value), className: "inp", placeholder: "Advanced ML" })
             ),
-            React.createElement("div", { style:{ display:"flex", gap:8 } },
-              React.createElement("button", { onClick:saveNew,
-                style:{ flex:1, background:"#22d3ee1a", border:"1px solid #22d3ee", borderRadius:9, padding:11, color:"#22d3ee", fontWeight:700, fontSize:13 }
-              }, "Add Phase"),
-              React.createElement("button", { onClick:()=>setAddMode(false),
-                style:{ flex:1, background:"transparent", border:"1px solid var(--border)", borderRadius:9, padding:11, color:"var(--muted)", fontSize:13 }
-              }, "Cancel")
+            React.createElement("div", null,
+              React.createElement(FL, null, "Date Range"),
+              React.createElement("input", { value: form.dates, onChange: e => f("dates")(e.target.value), className: "inp", placeholder: "1 Oct – 30 Nov" })
+            ),
+            React.createElement("div", null,
+              React.createElement(FL, null, "Hour Target"),
+              React.createElement("input", { type: "number", value: form.target, onChange: e => f("target")(e.target.value), className: "inp", placeholder: "80" })
             )
+          ),
+          React.createElement(FL, null, "Color"),
+          React.createElement("div", { style: { display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 } },
+            PHASE_PALETTE.map(c => React.createElement("button", {
+              key: c, onClick: () => f("color")(c),
+              style: { width: 28, height: 28, borderRadius: 6, background: c, border: `3px solid ${form.color === c ? "white" : "transparent"}` }
+            }))
+          ),
+          React.createElement("div", { style: { display: "flex", gap: 8 } },
+            React.createElement("button", {
+              onClick: saveNew,
+              style: { flex: 1, background: "#22d3ee1a", border: "1px solid #22d3ee", borderRadius: 9, padding: 11, color: "#22d3ee", fontWeight: 700, fontSize: 13 }
+            }, "Add Phase"),
+            React.createElement("button", {
+              onClick: () => setAddMode(false),
+              style: { flex: 1, background: "transparent", border: "1px solid var(--border)", borderRadius: 9, padding: 11, color: "var(--muted)", fontSize: 13 }
+            }, "Cancel")
           )
+        )
     );
   }
 
@@ -1976,98 +1997,107 @@ function CustomizeTab({ data, updSchema, weeklyLog, milestoneStatus, resourceSta
   function PlanSection() {
     const [editing, setEditing] = useState(null);
     const [addMode, setAddMode] = useState(false);
-    const blank = { w:"", d:"", p: phases[0]?.id || "Phase 1", topic:"", resource:"" };
+    const blank = { w: "", d: "", p: phases[0]?.id || "Phase 1", topic: "", resource: "" };
     const [form, setForm] = useState(blank);
-    const f = k => v => setForm(p => ({...p,[k]:v}));
+    const f = k => v => setForm(p => ({ ...p, [k]: v }));
 
     function saveEdit() {
       if (!form.w.trim() || !form.topic.trim()) return;
-      savePlan(plan.map(w => w.w === editing ? {...form} : w));
+      savePlan(plan.map(w => w.w === editing ? { ...form } : w));
       setEditing(null);
     }
     function saveNew() {
       if (!form.w.trim() || !form.topic.trim()) return;
-      savePlan([...plan, {...form}]);
+      savePlan([...plan, { ...form }]);
       setAddMode(false); setForm(blank);
     }
     function delWeek(ww) {
       if (!confirm(`Remove ${ww} from your plan?`)) return;
       savePlan(plan.filter(w => w.w !== ww));
     }
-    function moveUp(i)   { if (i===0) return; const a=[...plan]; [a[i-1],a[i]]=[a[i],a[i-1]]; savePlan(a); }
-    function moveDown(i) { if (i===plan.length-1) return; const a=[...plan]; [a[i],a[i+1]]=[a[i+1],a[i]]; savePlan(a); }
+    function moveUp(i) { if (i === 0) return; const a = [...plan];[a[i - 1], a[i]] = [a[i], a[i - 1]]; savePlan(a); }
+    function moveDown(i) { if (i === plan.length - 1) return; const a = [...plan];[a[i], a[i + 1]] = [a[i + 1], a[i]]; savePlan(a); }
 
-    const doneCnt = plan.filter(w => weeklyLog[w.w]?.status==="Done").length;
-    const pct = plan.length ? Math.round((doneCnt/plan.length)*100) : 0;
+    const doneCnt = plan.filter(w => weeklyLog[w.w]?.status === "Done").length;
+    const pct = plan.length ? Math.round((doneCnt / plan.length) * 100) : 0;
 
     return React.createElement("div", null,
       /* summary bar */
       React.createElement("div", {
-        style:{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:13, padding:"14px 16px", marginBottom:16 }
+        style: { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 13, padding: "14px 16px", marginBottom: 16 }
       },
-        React.createElement("div", { style:{ display:"flex", justifyContent:"space-between", marginBottom:8 } },
-          React.createElement("span", { style:{ fontSize:14, fontWeight:600 } }, "Plan Progress"),
-          React.createElement("span", { style:{ fontSize:14, color:"#4ade80", fontWeight:700 } }, `${doneCnt}/${plan.length} weeks (${pct}%)`)
+        React.createElement("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: 8 } },
+          React.createElement("span", { style: { fontSize: 14, fontWeight: 600 } }, "Plan Progress"),
+          React.createElement("span", { style: { fontSize: 14, color: "#4ade80", fontWeight: 700 } }, `${doneCnt}/${plan.length} weeks (${pct}%)`)
         ),
-        React.createElement(ProgBar, { pct, color:"#4ade80", height:7 })
+        React.createElement(ProgBar, { pct, color: "#4ade80", height: 7 })
       ),
       /* weeks grouped by phase */
       phases.map(ph => {
-        const phWeeks = plan.map((w,i)=>({...w,_i:i})).filter(w => w.p === ph.id);
+        const phWeeks = plan.map((w, i) => ({ ...w, _i: i })).filter(w => w.p === ph.id);
         if (!phWeeks.length) return null;
-        return React.createElement("div", { key:ph.id, style:{ marginBottom:18 } },
+        return React.createElement("div", { key: ph.id, style: { marginBottom: 18 } },
           React.createElement("div", {
-            style:{ fontSize:11, fontWeight:700, color:ph.color, letterSpacing:"0.14em", textTransform:"uppercase", marginBottom:8 }
+            style: { fontSize: 11, fontWeight: 700, color: ph.color, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 8 }
           }, `${ph.id} — ${ph.label}`),
           phWeeks.map(w => {
             const st = weeklyLog[w.w];
             const sc = SC[st?.status] || SC["Not Started"];
             const isEd = editing === w.w;
             return React.createElement("div", {
-              key:w.w,
-              style:{ background:"var(--card)", border:`1px solid ${isEd?ph.color+"55":"var(--border)"}`,
-                borderRadius:11, marginBottom:6, overflow:"hidden" }
+              key: w.w,
+              style: {
+                background: "var(--card)", border: `1px solid ${isEd ? ph.color + "55" : "var(--border)"}`,
+                borderRadius: 11, marginBottom: 6, overflow: "hidden"
+              }
             },
-              React.createElement("div", { style:{ padding:"11px 14px", display:"flex", alignItems:"center", gap:10 } },
-                React.createElement("div", { style:{ width:3, height:32, borderRadius:2, background:sc, flexShrink:0 } }),
-                React.createElement("div", { style:{ flex:1, minWidth:0 } },
-                  React.createElement("div", { style:{ display:"flex", justifyContent:"space-between", alignItems:"center" } },
-                    React.createElement("span", { style:{ fontFamily:"'Syne',sans-serif", fontSize:12, fontWeight:700, color:ph.color } }, w.w),
-                    React.createElement("span", { style:{ fontSize:10, color:sc, fontWeight:600, textTransform:"uppercase" } }, st?.status || "Not Started")
+              React.createElement("div", { style: { padding: "11px 14px", display: "flex", alignItems: "center", gap: 10 } },
+                React.createElement("div", { style: { width: 3, height: 32, borderRadius: 2, background: sc, flexShrink: 0 } }),
+                React.createElement("div", { style: { flex: 1, minWidth: 0 } },
+                  React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" } },
+                    React.createElement("span", { style: { fontFamily: "'Syne',sans-serif", fontSize: 12, fontWeight: 700, color: ph.color } }, w.w),
+                    React.createElement("span", { style: { fontSize: 10, color: sc, fontWeight: 600, textTransform: "uppercase" } }, st?.status || "Not Started")
                   ),
-                  React.createElement("div", { style:{ fontSize:14, fontWeight:500, color:"var(--text)", marginTop:2, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" } }, w.topic),
-                  React.createElement("div", { style:{ fontSize:11, color:"var(--muted)", marginTop:1 } }, `${w.d} — ${w.resource}`)
+                  React.createElement("div", { style: { fontSize: 14, fontWeight: 500, color: "var(--text)", marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, w.topic),
+                  React.createElement("div", { style: { fontSize: 11, color: "var(--muted)", marginTop: 1 } }, `${w.d} — ${w.resource}`)
                 ),
-                React.createElement("div", { style:{ display:"flex", gap:4, flexShrink:0 } },
-                  React.createElement("button", { onClick:()=>moveUp(w._i), title:"Move up",
-                    style:{ background:"var(--bg)", border:"1px solid var(--border)", borderRadius:5, padding:"4px 7px", color:"var(--muted)", fontSize:11 } }, "↑"),
-                  React.createElement("button", { onClick:()=>moveDown(w._i), title:"Move down",
-                    style:{ background:"var(--bg)", border:"1px solid var(--border)", borderRadius:5, padding:"4px 7px", color:"var(--muted)", fontSize:11 } }, "↓"),
+                React.createElement("div", { style: { display: "flex", gap: 4, flexShrink: 0 } },
                   React.createElement("button", {
-                    onClick:()=>{ setEditing(isEd?null:w.w); setForm({...w}); setAddMode(false); },
-                    style:{ background: isEd?"#22d3ee1a":"var(--bg)", border:`1px solid ${isEd?"#22d3ee":"var(--border)"}`,
-                      borderRadius:6, padding:"4px 9px", color:isEd?"#22d3ee":"var(--muted)", fontSize:12 }
-                  }, isEd?"✕":"Edit"),
-                  React.createElement("button", { onClick:()=>delWeek(w.w),
-                    style:{ background:"transparent", border:"none", color:"var(--muted)", fontSize:18, padding:"0 4px", lineHeight:1 }
+                    onClick: () => moveUp(w._i), title: "Move up",
+                    style: { background: "var(--bg)", border: "1px solid var(--border)", borderRadius: 5, padding: "4px 7px", color: "var(--muted)", fontSize: 11 }
+                  }, "↑"),
+                  React.createElement("button", {
+                    onClick: () => moveDown(w._i), title: "Move down",
+                    style: { background: "var(--bg)", border: "1px solid var(--border)", borderRadius: 5, padding: "4px 7px", color: "var(--muted)", fontSize: 11 }
+                  }, "↓"),
+                  React.createElement("button", {
+                    onClick: () => { setEditing(isEd ? null : w.w); setForm({ ...w }); setAddMode(false); },
+                    style: {
+                      background: isEd ? "#22d3ee1a" : "var(--bg)", border: `1px solid ${isEd ? "#22d3ee" : "var(--border)"}`,
+                      borderRadius: 6, padding: "4px 9px", color: isEd ? "#22d3ee" : "var(--muted)", fontSize: 12
+                    }
+                  }, isEd ? "✕" : "Edit"),
+                  React.createElement("button", {
+                    onClick: () => delWeek(w.w),
+                    style: { background: "transparent", border: "none", color: "var(--muted)", fontSize: 18, padding: "0 4px", lineHeight: 1 }
                   }, "×")
                 )
               ),
               isEd && React.createElement("div", {
-                style:{ borderTop:"1px solid var(--border)", padding:"14px 16px", display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }
+                style: { borderTop: "1px solid var(--border)", padding: "14px 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }
               },
-                React.createElement("div", null, React.createElement(FL,null,"Week Label"), React.createElement("input",{value:form.w,onChange:e=>f("w")(e.target.value),className:"inp",placeholder:"Week 25"})),
-                React.createElement("div", null, React.createElement(FL,null,"Start Date"), React.createElement("input",{value:form.d,onChange:e=>f("d")(e.target.value),className:"inp",placeholder:"28/09/26"})),
+                React.createElement("div", null, React.createElement(FL, null, "Week Label"), React.createElement("input", { value: form.w, onChange: e => f("w")(e.target.value), className: "inp", placeholder: "Week 25" })),
+                React.createElement("div", null, React.createElement(FL, null, "Start Date"), React.createElement("input", { value: form.d, onChange: e => f("d")(e.target.value), className: "inp", placeholder: "28/09/26" })),
                 React.createElement("div", null,
-                  React.createElement(FL,null,"Phase"),
-                  React.createElement("select",{value:form.p,onChange:e=>f("p")(e.target.value),className:"inp"},
-                    phases.map(ph=>React.createElement("option",{key:ph.id,value:ph.id},ph.id))
+                  React.createElement(FL, null, "Phase"),
+                  React.createElement("select", { value: form.p, onChange: e => f("p")(e.target.value), className: "inp" },
+                    phases.map(ph => React.createElement("option", { key: ph.id, value: ph.id }, ph.id))
                   )
                 ),
-                React.createElement("div", null, React.createElement(FL,null,"Resource"), React.createElement("input",{value:form.resource,onChange:e=>f("resource")(e.target.value),className:"inp",placeholder:"Coursera..."})),
-                React.createElement("div",{style:{gridColumn:"1/-1"}}, React.createElement(FL,null,"Topic"), React.createElement("input",{value:form.topic,onChange:e=>f("topic")(e.target.value),className:"inp",placeholder:"e.g. Advanced NLP techniques"})),
-                React.createElement("div",{style:{gridColumn:"1/-1"}},
-                  React.createElement("button",{onClick:saveEdit,style:{width:"100%",background:`${ph.color}1a`,border:`1px solid ${ph.color}`,borderRadius:9,padding:11,color:ph.color,fontWeight:700,fontSize:13}},"Save Changes")
+                React.createElement("div", null, React.createElement(FL, null, "Resource"), React.createElement("input", { value: form.resource, onChange: e => f("resource")(e.target.value), className: "inp", placeholder: "Coursera..." })),
+                React.createElement("div", { style: { gridColumn: "1/-1" } }, React.createElement(FL, null, "Topic"), React.createElement("input", { value: form.topic, onChange: e => f("topic")(e.target.value), className: "inp", placeholder: "e.g. Advanced NLP techniques" })),
+                React.createElement("div", { style: { gridColumn: "1/-1" } },
+                  React.createElement("button", { onClick: saveEdit, style: { width: "100%", background: `${ph.color}1a`, border: `1px solid ${ph.color}`, borderRadius: 9, padding: 11, color: ph.color, fontWeight: 700, fontSize: 13 } }, "Save Changes")
                 )
               )
             );
@@ -2076,42 +2106,42 @@ function CustomizeTab({ data, updSchema, weeklyLog, milestoneStatus, resourceSta
       }),
       /* uncategorised weeks */
       (() => {
-        const unc = plan.map((w,i)=>({...w,_i:i})).filter(w => !phases.find(ph=>ph.id===w.p));
+        const unc = plan.map((w, i) => ({ ...w, _i: i })).filter(w => !phases.find(ph => ph.id === w.p));
         if (!unc.length) return null;
-        return React.createElement("div",{style:{marginBottom:18}},
-          React.createElement("div",{style:{fontSize:11,fontWeight:700,color:"var(--muted)",letterSpacing:"0.14em",textTransform:"uppercase",marginBottom:8}},"Uncategorised"),
-          unc.map(w=>React.createElement("div",{key:w.w,style:{background:"var(--card)",border:"1px solid var(--border)",borderRadius:11,padding:"11px 14px",marginBottom:6,fontSize:14,color:"var(--text)",display:"flex",justifyContent:"space-between",alignItems:"center"}},
-            React.createElement("span",null,w.w+" — "+w.topic),
-            React.createElement("button",{onClick:()=>delWeek(w.w),style:{background:"none",border:"none",color:"var(--muted)",fontSize:18,cursor:"pointer"}},"×")
+        return React.createElement("div", { style: { marginBottom: 18 } },
+          React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "var(--muted)", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 8 } }, "Uncategorised"),
+          unc.map(w => React.createElement("div", { key: w.w, style: { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 11, padding: "11px 14px", marginBottom: 6, fontSize: 14, color: "var(--text)", display: "flex", justifyContent: "space-between", alignItems: "center" } },
+            React.createElement("span", null, w.w + " — " + w.topic),
+            React.createElement("button", { onClick: () => delWeek(w.w), style: { background: "none", border: "none", color: "var(--muted)", fontSize: 18, cursor: "pointer" } }, "×")
           ))
         );
       })(),
       /* add week */
       !addMode
-        ? React.createElement("button",{
-            onClick:()=>{setAddMode(true);setEditing(null);setForm(blank);},
-            style:{width:"100%",background:"#22d3ee0d",border:"1.5px dashed #22d3ee44",borderRadius:12,padding:14,color:"#22d3ee",fontWeight:600,fontSize:13,marginTop:4}
-          },"+ Add Week to Plan")
-        : React.createElement("div",{style:{background:"var(--card)",border:"1px solid #22d3ee44",borderRadius:14,padding:16,marginTop:8}},
-            React.createElement("div",{style:{fontFamily:"'Syne',sans-serif",fontSize:14,fontWeight:700,color:"var(--text)",marginBottom:14}},"New Week"),
-            React.createElement("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:10}},
-              React.createElement("div",null,React.createElement(FL,null,"Week Label"),React.createElement("input",{value:form.w,onChange:e=>f("w")(e.target.value),className:"inp",placeholder:"Week 25"})),
-              React.createElement("div",null,React.createElement(FL,null,"Start Date"),React.createElement("input",{value:form.d,onChange:e=>f("d")(e.target.value),className:"inp",placeholder:"28/09/26"})),
-              React.createElement("div",null,
-                React.createElement(FL,null,"Phase"),
-                React.createElement("select",{value:form.p,onChange:e=>f("p")(e.target.value),className:"inp"},
-                  phases.map(ph=>React.createElement("option",{key:ph.id,value:ph.id},ph.id))
-                )
-              ),
-              React.createElement("div",null,React.createElement(FL,null,"Resource"),React.createElement("input",{value:form.resource,onChange:e=>f("resource")(e.target.value),className:"inp",placeholder:"Coursera..."}))
+        ? React.createElement("button", {
+          onClick: () => { setAddMode(true); setEditing(null); setForm(blank); },
+          style: { width: "100%", background: "#22d3ee0d", border: "1.5px dashed #22d3ee44", borderRadius: 12, padding: 14, color: "#22d3ee", fontWeight: 600, fontSize: 13, marginTop: 4 }
+        }, "+ Add Week to Plan")
+        : React.createElement("div", { style: { background: "var(--card)", border: "1px solid #22d3ee44", borderRadius: 14, padding: 16, marginTop: 8 } },
+          React.createElement("div", { style: { fontFamily: "'Syne',sans-serif", fontSize: 14, fontWeight: 700, color: "var(--text)", marginBottom: 14 } }, "New Week"),
+          React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 10 } },
+            React.createElement("div", null, React.createElement(FL, null, "Week Label"), React.createElement("input", { value: form.w, onChange: e => f("w")(e.target.value), className: "inp", placeholder: "Week 25" })),
+            React.createElement("div", null, React.createElement(FL, null, "Start Date"), React.createElement("input", { value: form.d, onChange: e => f("d")(e.target.value), className: "inp", placeholder: "28/09/26" })),
+            React.createElement("div", null,
+              React.createElement(FL, null, "Phase"),
+              React.createElement("select", { value: form.p, onChange: e => f("p")(e.target.value), className: "inp" },
+                phases.map(ph => React.createElement("option", { key: ph.id, value: ph.id }, ph.id))
+              )
             ),
-            React.createElement(FL,null,"Topic"),
-            React.createElement("input",{value:form.topic,onChange:e=>f("topic")(e.target.value),className:"inp",placeholder:"What you'll study this week",style:{marginBottom:12}}),
-            React.createElement("div",{style:{display:"flex",gap:8}},
-              React.createElement("button",{onClick:saveNew,style:{flex:1,background:"#22d3ee1a",border:"1px solid #22d3ee",borderRadius:9,padding:11,color:"#22d3ee",fontWeight:700,fontSize:13}},"Add Week"),
-              React.createElement("button",{onClick:()=>setAddMode(false),style:{flex:1,background:"transparent",border:"1px solid var(--border)",borderRadius:9,padding:11,color:"var(--muted)",fontSize:13}},"Cancel")
-            )
+            React.createElement("div", null, React.createElement(FL, null, "Resource"), React.createElement("input", { value: form.resource, onChange: e => f("resource")(e.target.value), className: "inp", placeholder: "Coursera..." }))
+          ),
+          React.createElement(FL, null, "Topic"),
+          React.createElement("input", { value: form.topic, onChange: e => f("topic")(e.target.value), className: "inp", placeholder: "What you'll study this week", style: { marginBottom: 12 } }),
+          React.createElement("div", { style: { display: "flex", gap: 8 } },
+            React.createElement("button", { onClick: saveNew, style: { flex: 1, background: "#22d3ee1a", border: "1px solid #22d3ee", borderRadius: 9, padding: 11, color: "#22d3ee", fontWeight: 700, fontSize: 13 } }, "Add Week"),
+            React.createElement("button", { onClick: () => setAddMode(false), style: { flex: 1, background: "transparent", border: "1px solid var(--border)", borderRadius: 9, padding: 11, color: "var(--muted)", fontSize: 13 } }, "Cancel")
           )
+        )
     );
   }
 
@@ -2121,19 +2151,19 @@ function CustomizeTab({ data, updSchema, weeklyLog, milestoneStatus, resourceSta
   function MilestonesSection() {
     const [editing, setEditing] = useState(null);
     const [addMode, setAddMode] = useState(false);
-    const blank = { id:"", action:"", ph: phases[0]?.id || "Phase 1", due:"" };
+    const blank = { id: "", action: "", ph: phases[0]?.id || "Phase 1", due: "" };
     const [form, setForm] = useState(blank);
-    const f = k => v => setForm(p => ({...p,[k]:v}));
+    const f = k => v => setForm(p => ({ ...p, [k]: v }));
 
     function saveEdit() {
       if (!form.action.trim()) return;
-      saveMiles(miles.map(m => m.id === editing ? {...form} : m));
+      saveMiles(miles.map(m => m.id === editing ? { ...form } : m));
       setEditing(null);
     }
     function saveNew() {
       if (!form.action.trim()) return;
       const id = `m_${Date.now()}`;
-      saveMiles([...miles, {...form, id}]);
+      saveMiles([...miles, { ...form, id }]);
       setAddMode(false); setForm(blank);
     }
     function delMile(id) {
@@ -2142,53 +2172,53 @@ function CustomizeTab({ data, updSchema, weeklyLog, milestoneStatus, resourceSta
     }
 
     const doneCnt = miles.filter(m => milestoneStatus[m.id]?.done).length;
-    const pct = miles.length ? Math.round((doneCnt/miles.length)*100) : 0;
+    const pct = miles.length ? Math.round((doneCnt / miles.length) * 100) : 0;
 
     return React.createElement("div", null,
       /* summary */
-      React.createElement("div",{style:{background:"var(--card)",border:"1px solid var(--border)",borderRadius:13,padding:"14px 16px",marginBottom:16}},
-        React.createElement("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:8}},
-          React.createElement("span",{style:{fontSize:14,fontWeight:600}},"CV & Career Milestones"),
-          React.createElement("span",{style:{fontSize:14,color:"#4ade80",fontWeight:700}},`${doneCnt}/${miles.length} done (${pct}%)`)
+      React.createElement("div", { style: { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 13, padding: "14px 16px", marginBottom: 16 } },
+        React.createElement("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: 8 } },
+          React.createElement("span", { style: { fontSize: 14, fontWeight: 600 } }, "CV & Career Milestones"),
+          React.createElement("span", { style: { fontSize: 14, color: "#4ade80", fontWeight: 700 } }, `${doneCnt}/${miles.length} done (${pct}%)`)
         ),
-        React.createElement(ProgBar,{pct,color:"#4ade80",height:7})
+        React.createElement(ProgBar, { pct, color: "#4ade80", height: 7 })
       ),
       phases.map(ph => {
         const phMiles = miles.filter(m => m.ph === ph.id);
         if (!phMiles.length) return null;
         const phDone = phMiles.filter(m => milestoneStatus[m.id]?.done).length;
-        return React.createElement("div",{key:ph.id,style:{marginBottom:18}},
-          React.createElement("div",{style:{fontFamily:"'Syne',sans-serif",fontSize:11,fontWeight:700,color:ph.color,letterSpacing:"0.14em",textTransform:"uppercase",marginBottom:8}},
+        return React.createElement("div", { key: ph.id, style: { marginBottom: 18 } },
+          React.createElement("div", { style: { fontFamily: "'Syne',sans-serif", fontSize: 11, fontWeight: 700, color: ph.color, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 8 } },
             `${ph.id} — ${ph.label} (${phDone}/${phMiles.length})`),
           phMiles.map(m => {
             const done = !!milestoneStatus[m.id]?.done;
             const isEd = editing === m.id;
-            return React.createElement("div",{key:m.id,style:{background:"var(--card)",border:`1px solid ${done?"#4ade8033":isEd?ph.color+"44":"var(--border)"}`,borderRadius:11,padding:"12px 14px",marginBottom:6,opacity:done?0.7:1,transition:"opacity 0.2s"}},
-              React.createElement("div",{style:{display:"flex",alignItems:"center",gap:10}},
-                React.createElement("div",{style:{width:20,height:20,borderRadius:5,flexShrink:0,background:done?"#4ade80":"var(--bg)",border:`2px solid ${done?"#4ade80":"var(--muted)"}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,color:"#060b14"}},done?"✓":""),
-                React.createElement("div",{style:{flex:1,minWidth:0}},
-                  React.createElement("div",{style:{fontSize:14,fontWeight:600,color:"var(--text)",textDecoration:done?"line-through":"none",marginBottom:2}},m.action),
-                  React.createElement("div",{style:{fontSize:12,color:"var(--muted)"}},"Due: ",m.due)
+            return React.createElement("div", { key: m.id, style: { background: "var(--card)", border: `1px solid ${done ? "#4ade8033" : isEd ? ph.color + "44" : "var(--border)"}`, borderRadius: 11, padding: "12px 14px", marginBottom: 6, opacity: done ? 0.7 : 1, transition: "opacity 0.2s" } },
+              React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } },
+                React.createElement("div", { style: { width: 20, height: 20, borderRadius: 5, flexShrink: 0, background: done ? "#4ade80" : "var(--bg)", border: `2px solid ${done ? "#4ade80" : "var(--muted)"}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: "#060b14" } }, done ? "✓" : ""),
+                React.createElement("div", { style: { flex: 1, minWidth: 0 } },
+                  React.createElement("div", { style: { fontSize: 14, fontWeight: 600, color: "var(--text)", textDecoration: done ? "line-through" : "none", marginBottom: 2 } }, m.action),
+                  React.createElement("div", { style: { fontSize: 12, color: "var(--muted)" } }, "Due: ", m.due)
                 ),
-                React.createElement("div",{style:{display:"flex",gap:6,flexShrink:0}},
-                  React.createElement("button",{
-                    onClick:()=>{setEditing(isEd?null:m.id);setForm({...m});setAddMode(false);},
-                    style:{background:isEd?"#22d3ee1a":"var(--bg)",border:`1px solid ${isEd?"#22d3ee":"var(--border)"}`,borderRadius:6,padding:"4px 9px",color:isEd?"#22d3ee":"var(--muted)",fontSize:12}
-                  },isEd?"✕":"Edit"),
-                  React.createElement("button",{onClick:()=>delMile(m.id),style:{background:"transparent",border:"none",color:"var(--muted)",fontSize:18,lineHeight:1}},"×")
+                React.createElement("div", { style: { display: "flex", gap: 6, flexShrink: 0 } },
+                  React.createElement("button", {
+                    onClick: () => { setEditing(isEd ? null : m.id); setForm({ ...m }); setAddMode(false); },
+                    style: { background: isEd ? "#22d3ee1a" : "var(--bg)", border: `1px solid ${isEd ? "#22d3ee" : "var(--border)"}`, borderRadius: 6, padding: "4px 9px", color: isEd ? "#22d3ee" : "var(--muted)", fontSize: 12 }
+                  }, isEd ? "✕" : "Edit"),
+                  React.createElement("button", { onClick: () => delMile(m.id), style: { background: "transparent", border: "none", color: "var(--muted)", fontSize: 18, lineHeight: 1 } }, "×")
                 )
               ),
-              isEd && React.createElement("div",{style:{borderTop:"1px solid var(--border)",marginTop:10,paddingTop:12,display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}},
-                React.createElement("div",{style:{gridColumn:"1/-1"}},React.createElement(FL,null,"Action"),React.createElement("input",{value:form.action,onChange:e=>f("action")(e.target.value),className:"inp",placeholder:"What you need to achieve..."})),
-                React.createElement("div",null,
-                  React.createElement(FL,null,"Phase"),
-                  React.createElement("select",{value:form.ph,onChange:e=>f("ph")(e.target.value),className:"inp"},
-                    phases.map(ph=>React.createElement("option",{key:ph.id,value:ph.id},ph.id))
+              isEd && React.createElement("div", { style: { borderTop: "1px solid var(--border)", marginTop: 10, paddingTop: 12, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 } },
+                React.createElement("div", { style: { gridColumn: "1/-1" } }, React.createElement(FL, null, "Action"), React.createElement("input", { value: form.action, onChange: e => f("action")(e.target.value), className: "inp", placeholder: "What you need to achieve..." })),
+                React.createElement("div", null,
+                  React.createElement(FL, null, "Phase"),
+                  React.createElement("select", { value: form.ph, onChange: e => f("ph")(e.target.value), className: "inp" },
+                    phases.map(ph => React.createElement("option", { key: ph.id, value: ph.id }, ph.id))
                   )
                 ),
-                React.createElement("div",null,React.createElement(FL,null,"Due Date"),React.createElement("input",{value:form.due,onChange:e=>f("due")(e.target.value),className:"inp",placeholder:"30 Sep"})),
-                React.createElement("div",{style:{gridColumn:"1/-1"}},
-                  React.createElement("button",{onClick:saveEdit,style:{width:"100%",background:`${ph.color}1a`,border:`1px solid ${ph.color}`,borderRadius:9,padding:10,color:ph.color,fontWeight:700,fontSize:13}},"Save Changes")
+                React.createElement("div", null, React.createElement(FL, null, "Due Date"), React.createElement("input", { value: form.due, onChange: e => f("due")(e.target.value), className: "inp", placeholder: "30 Sep" })),
+                React.createElement("div", { style: { gridColumn: "1/-1" } },
+                  React.createElement("button", { onClick: saveEdit, style: { width: "100%", background: `${ph.color}1a`, border: `1px solid ${ph.color}`, borderRadius: 9, padding: 10, color: ph.color, fontWeight: 700, fontSize: 13 } }, "Save Changes")
                 )
               )
             );
@@ -2196,61 +2226,61 @@ function CustomizeTab({ data, updSchema, weeklyLog, milestoneStatus, resourceSta
         );
       }),
       !addMode
-        ? React.createElement("button",{
-            onClick:()=>{setAddMode(true);setEditing(null);setForm(blank);},
-            style:{width:"100%",background:"#4ade800d",border:"1.5px dashed #4ade8044",borderRadius:12,padding:14,color:"#4ade80",fontWeight:600,fontSize:13,marginTop:4}
-          },"+ Add Milestone")
-        : React.createElement("div",{style:{background:"var(--card)",border:"1px solid #4ade8044",borderRadius:14,padding:16,marginTop:8}},
-            React.createElement("div",{style:{fontFamily:"'Syne',sans-serif",fontSize:14,fontWeight:700,color:"var(--text)",marginBottom:14}},"New Milestone"),
-            React.createElement(FL,null,"Action"),
-            React.createElement("input",{value:form.action,onChange:e=>f("action")(e.target.value),className:"inp",placeholder:"What you need to achieve...",style:{marginBottom:10}}),
-            React.createElement("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:12}},
-              React.createElement("div",null,
-                React.createElement(FL,null,"Phase"),
-                React.createElement("select",{value:form.ph,onChange:e=>f("ph")(e.target.value),className:"inp"},
-                  phases.map(ph=>React.createElement("option",{key:ph.id,value:ph.id},ph.id))
-                )
-              ),
-              React.createElement("div",null,React.createElement(FL,null,"Due Date"),React.createElement("input",{value:form.due,onChange:e=>f("due")(e.target.value),className:"inp",placeholder:"30 Sep"}))
+        ? React.createElement("button", {
+          onClick: () => { setAddMode(true); setEditing(null); setForm(blank); },
+          style: { width: "100%", background: "#4ade800d", border: "1.5px dashed #4ade8044", borderRadius: 12, padding: 14, color: "#4ade80", fontWeight: 600, fontSize: 13, marginTop: 4 }
+        }, "+ Add Milestone")
+        : React.createElement("div", { style: { background: "var(--card)", border: "1px solid #4ade8044", borderRadius: 14, padding: 16, marginTop: 8 } },
+          React.createElement("div", { style: { fontFamily: "'Syne',sans-serif", fontSize: 14, fontWeight: 700, color: "var(--text)", marginBottom: 14 } }, "New Milestone"),
+          React.createElement(FL, null, "Action"),
+          React.createElement("input", { value: form.action, onChange: e => f("action")(e.target.value), className: "inp", placeholder: "What you need to achieve...", style: { marginBottom: 10 } }),
+          React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 12 } },
+            React.createElement("div", null,
+              React.createElement(FL, null, "Phase"),
+              React.createElement("select", { value: form.ph, onChange: e => f("ph")(e.target.value), className: "inp" },
+                phases.map(ph => React.createElement("option", { key: ph.id, value: ph.id }, ph.id))
+              )
             ),
-            React.createElement("div",{style:{display:"flex",gap:8}},
-              React.createElement("button",{onClick:saveNew,style:{flex:1,background:"#4ade801a",border:"1px solid #4ade80",borderRadius:9,padding:11,color:"#4ade80",fontWeight:700,fontSize:13}},"Add Milestone"),
-              React.createElement("button",{onClick:()=>setAddMode(false),style:{flex:1,background:"transparent",border:"1px solid var(--border)",borderRadius:9,padding:11,color:"var(--muted)",fontSize:13}},"Cancel")
-            )
+            React.createElement("div", null, React.createElement(FL, null, "Due Date"), React.createElement("input", { value: form.due, onChange: e => f("due")(e.target.value), className: "inp", placeholder: "30 Sep" }))
+          ),
+          React.createElement("div", { style: { display: "flex", gap: 8 } },
+            React.createElement("button", { onClick: saveNew, style: { flex: 1, background: "#4ade801a", border: "1px solid #4ade80", borderRadius: 9, padding: 11, color: "#4ade80", fontWeight: 700, fontSize: 13 } }, "Add Milestone"),
+            React.createElement("button", { onClick: () => setAddMode(false), style: { flex: 1, background: "transparent", border: "1px solid var(--border)", borderRadius: 9, padding: 11, color: "var(--muted)", fontSize: 13 } }, "Cancel")
           )
+        )
     );
   }
 
   /* ── render ── */
   const SECTIONS = [
-    { k:"phases",     l:"🎯 Phases",     badge: phases.length },
-    { k:"plan",       l:"🗓 Weekly Plan", badge: plan.length },
-    { k:"milestones", l:"✅ Milestones",  badge: miles.length },
+    { k: "phases", l: "🎯 Phases", badge: phases.length },
+    { k: "plan", l: "🗓 Weekly Plan", badge: plan.length },
+    { k: "milestones", l: "✅ Milestones", badge: miles.length },
   ];
 
   return React.createElement("div", null,
     React.createElement(SL, null, "Customise Your Learning Plan"),
     /* section switcher */
-    React.createElement("div",{style:{display:"flex",gap:8,marginBottom:22,flexWrap:"wrap"}},
+    React.createElement("div", { style: { display: "flex", gap: 8, marginBottom: 22, flexWrap: "wrap" } },
       SECTIONS.map(s =>
-        React.createElement("button",{
-          key:s.k, onClick:()=>setSection(s.k),
-          style:{
-            padding:"9px 16px", borderRadius:10, fontSize:13, fontWeight:600,
-            background: section===s.k ? "rgba(34,211,238,0.12)" : "var(--card)",
-            border: `1px solid ${section===s.k?"#22d3ee":"var(--border)"}`,
-            color: section===s.k ? "#22d3ee" : "var(--muted)",
-            display:"flex", alignItems:"center", gap:7, transition:"all 0.15s"
+        React.createElement("button", {
+          key: s.k, onClick: () => setSection(s.k),
+          style: {
+            padding: "9px 16px", borderRadius: 10, fontSize: 13, fontWeight: 600,
+            background: section === s.k ? "rgba(34,211,238,0.12)" : "var(--card)",
+            border: `1px solid ${section === s.k ? "#22d3ee" : "var(--border)"}`,
+            color: section === s.k ? "#22d3ee" : "var(--muted)",
+            display: "flex", alignItems: "center", gap: 7, transition: "all 0.15s"
           }
         },
           s.l,
-          React.createElement("span",{style:{background:"var(--border)",borderRadius:20,padding:"1px 7px",fontSize:11,color:"var(--text)"}},s.badge)
+          React.createElement("span", { style: { background: "var(--border)", borderRadius: 20, padding: "1px 7px", fontSize: 11, color: "var(--text)" } }, s.badge)
         )
       )
     ),
-    section==="phases"     && React.createElement(PhasesSection),
-    section==="plan"       && React.createElement(PlanSection),
-    section==="milestones" && React.createElement(MilestonesSection)
+    section === "phases" && React.createElement(PhasesSection),
+    section === "plan" && React.createElement(PlanSection),
+    section === "milestones" && React.createElement(MilestonesSection)
   );
 }
 
@@ -2269,11 +2299,11 @@ function App() {
   /* Sync mutable globals from user schema so all helpers pick up edits */
   function applySchema(s) {
     if (!s) return;
-    PHASES      = s.phases?.length     ? s.phases     : DEFAULT_PHASES;
+    PHASES = s.phases?.length ? s.phases : DEFAULT_PHASES;
     WEEKLY_PLAN = s.weeklyPlan?.length ? s.weeklyPlan : DEFAULT_WEEKLY_PLAN;
-    MILESTONES  = s.milestones?.length ? s.milestones : DEFAULT_MILESTONES;
-    RESOURCES   = s.resources?.length  ? s.resources  : DEFAULT_RESOURCES;
-    PROJECTS    = s.projects?.length   ? s.projects   : DEFAULT_PROJECTS;
+    MILESTONES = s.milestones?.length ? s.milestones : DEFAULT_MILESTONES;
+    RESOURCES = s.resources?.length ? s.resources : DEFAULT_RESOURCES;
+    PROJECTS = s.projects?.length ? s.projects : DEFAULT_PROJECTS;
     PC = Object.fromEntries(PHASES.map(p => [p.id, p.color]));
   }
 
@@ -2282,25 +2312,25 @@ function App() {
     const schema = p.schema || defSchema();
     applySchema(schema);
     return {
-      weeklyLog:     { ...defWeekly(),   ...(p.weeklyLog   || {}) },
-      resources:     { ...defRes(),      ...(p.resources   || {}) },
-      projects:      { ...defProjects(), ...(p.projects    || {}) },
-      milestones:    { ...defMiles(),    ...(p.milestones  || {}) },
-      dailyLog:      p.dailyLog      || {},
-      customPlans:   p.customPlans   || [],
-      flashcards:    p.flashcards    || defFlash(),
-      settings:      p.settings      || { githubUsername: "" },
-      lastExportDate:p.lastExportDate|| null,
+      weeklyLog: { ...defWeekly(), ...(p.weeklyLog || {}) },
+      resources: { ...defRes(), ...(p.resources || {}) },
+      projects: { ...defProjects(), ...(p.projects || {}) },
+      milestones: { ...defMiles(), ...(p.milestones || {}) },
+      dailyLog: p.dailyLog || {},
+      customPlans: p.customPlans || [],
+      flashcards: p.flashcards || defFlash(),
+      settings: p.settings || { githubUsername: "" },
+      lastExportDate: p.lastExportDate || null,
       schema,
-      _ts:           p._ts           || null,
+      _ts: p._ts || null,
     };
   }
 
   function defaultData() {
     return {
-      weeklyLog:defWeekly(), resources:defRes(), projects:defProjects(),
-      milestones:defMiles(), dailyLog:{}, customPlans:[], flashcards:defFlash(),
-      settings:{githubUsername:""}, lastExportDate:null, schema:defSchema(), _ts:null,
+      weeklyLog: defWeekly(), resources: defRes(), projects: defProjects(),
+      milestones: defMiles(), dailyLog: {}, customPlans: [], flashcards: defFlash(),
+      settings: { githubUsername: "" }, lastExportDate: null, schema: defSchema(), _ts: null,
     };
   }
 
@@ -2452,8 +2482,8 @@ function App() {
     { k: "resources", l: "📖 Resources" },
     { k: "projects", l: "🚀 Projects" },
     { k: "goals", l: "🎯 CV & Goals" },
-    { k: "myplans",   l: "📂 My Plans" },
-    { k: "files",     l: "📁 Local Files" },
+    { k: "myplans", l: "📂 My Plans" },
+    { k: "files", l: "📁 Local Files" },
     { k: "customize", l: "⚙️ Customize" },
   ];
 
@@ -2501,8 +2531,8 @@ function App() {
           tab === "resources" && React.createElement(ResTab, { resources: data.resources, updRes }),
           tab === "projects" && React.createElement(ProjTab, { projects: data.projects, updProj }),
           tab === "goals" && React.createElement(GoalsTab, { milestones: data.milestones, updMile }),
-          tab === "myplans"   && React.createElement(MyPlansTab,   { customPlans: data.customPlans, addPlan, delPlan, updPlanRow }),
-          tab === "files"     && React.createElement(FilesTab,     null),
+          tab === "myplans" && React.createElement(MyPlansTab, { customPlans: data.customPlans, addPlan, delPlan, updPlanRow }),
+          tab === "files" && React.createElement(FilesTab, null),
           tab === "customize" && React.createElement(CustomizeTab, { data, updSchema, weeklyLog: data.weeklyLog, milestoneStatus: data.milestones, resourceStatus: data.resources }),
         )
       )
