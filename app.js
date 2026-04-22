@@ -91,7 +91,7 @@ const DEFAULT_WEEKLY_PLAN = [
   { w: "Week 23", d: "14/09/26", p: "Phase 4", topic: "Capstone polish + interview prep ramp: 50 LeetCode Easy/Medium, DataLemur through Medium, 3 Pramp mock interviews", resource: "LeetCode + DataLemur + Pramp + Intro to ML Interviews (Huyen)" },
   { w: "Week 24", d: "21/09/26", p: "Phase 4", topic: "Applications sprint: 30+ applications submitted, CV tailored to 20 target employers, SHL/Cappfinity numerical reasoning practice, cover letters", resource: "LinkedIn / CV / Prospects.ac.uk / Bright Network" },
 ];
-let WEEKLY_PLAN = DEFAULT_WEEKLY_PLAN; = DEFAULT_WEEKLY_PLAN;
+let WEEKLY_PLAN = DEFAULT_WEEKLY_PLAN;
 
 const DEFAULT_RESOURCES = [
   { id: "r1", name: "Kaggle Python Micro-course", platform: "Kaggle", ph: "Phase 1", type: "Course", cost: "Free" },
@@ -120,7 +120,7 @@ const DEFAULT_RESOURCES = [
   { id: "r24", name: "Pramp: mock technical interviews", platform: "pramp.com", ph: "Phase 4", type: "Practice", cost: "Free" },
   { id: "r25", name: "Streamlit docs + FastAPI docs", platform: "streamlit.io", ph: "Phase 2", type: "Docs", cost: "Free" },
 ];
-let RESOURCES = DEFAULT_RESOURCES; = DEFAULT_RESOURCES;
+let RESOURCES = DEFAULT_RESOURCES;
 
 const DEFAULT_PROJECTS = [
   { id: "p1", name: "Project A: Tabular Classification / Regression Model", ph: "Phase 2", tools: "pandas, scikit-learn, FastAPI" },
